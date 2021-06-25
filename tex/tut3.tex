@@ -1,0 +1,376 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\begin{questions}
+
+\question Consider a vector field $\vec{F}(\vec{r})$ which dies faster than $\frac{1}{r}$ as $r\to\infty$, show the following results
+\begin{parts}
+	\part Using Helmholtz theorem as discussed in Lecture 5, show that $\vec{F}(\vec{r})$ may be written as
+	\begin{equation*}
+		\vec{F}(\vec{r}) = -\nabla \frac{1}{4\pi}\iiint_\mathcal{V}\frac{\nabla'\cdot\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau' + \nabla\times\frac{1}{4\pi}\iiint_\mathcal{V}\frac{\nabla'\times\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'
+	\end{equation*}
+	\begin{solution}
+		We have to directly apply Helmholtz Theorem
+		\begin{align}
+			\vec{F}(\vec{r}) &= -\nabla U(\vec{r}) + \nabla \times \vec{A}(\vec{r}) \label{eq:helmholtz}
+\intertext{Where}
+			U(\vec{r}) &= \frac{1}{4\pi}\iiint_\mathcal{V} \frac{D(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\\
+			\vec{A}(\vec{r}) &= \frac{1}{4\pi}\iiint_\mathcal{V} \frac{\vec{C}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\\
+			D(\vec{r})&=\nabla\cdot\vec{F}(\vec{r})\\
+			\vec{C}(\vec{r})&=\nabla\times\vec{F}(\vec{r})
+		\end{align}
+		Simply putting in $U(\vec{r})$ and $\vec{A}(\vec{r})$ into \ref{eq:helmholtz} gives us exactly what we want
+	\end{solution}
+	\newpage
+	\part Derive the same expression for $\vec{F}(\vec{r})$ using
+	\begin{equation*}
+		\vec{F}(\vec{r}) = \iiint_\mathcal{V} d\tau'\,\vec{F}(\vec{r}')\delta^3(\vec{r}-\vec{r}')
+	\end{equation*}
+	boundary of the integral is to be understood at $\infty$\\
+	\textit{Hint: Use the following}
+	\begin{enumerate}[label=(\roman*)]
+		\item $-4\pi\delta^3(\vec{r}-\vec{r}')=\nabla^2\frac{1}{|\vec{r}-\vec{r}'|}$ \label{enum:p1}
+		\item $\nabla\times\nabla\times \vec{v} = \nabla\nabla\cdot\vec{f}-\nabla^2\vec{f}$ \label{enum:p2}
+		\item $\nabla\frac{1}{|\vec{r}-\vec{r}'|}=-\nabla'\frac{1}{|\vec{r}-\vec{r}'|}$ \label{enum:p3}
+		\item $\nabla\times\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}=-\vec{F}(\vec{r})\times\nabla\left(\frac{1}{|\vec{r}-\vec{r}'|}\right)$ \label{enum:p4}
+		\item Q\ref{q:7}\ref{p:7b}
+	\end{enumerate}
+	\begin{solution}
+		\begin{align}
+			\vec{F}(\vec{r}) &= \iiint_\mathcal{V} d\tau'\,\vec{F}(\vec{r}')\delta^3(\vec{r}-\vec{r}')\\
+			&= -\frac{1}{4\pi}\iiint_\mathcal{V} d\tau'\,\vec{F}(\vec{r}')\nabla^2\left(\frac{1}{|\vec{r}-\vec{r}'|}\right) &&\text{Using \ref{enum:p1}}\\
+			&= -\frac{1}{4\pi}\nabla^2\iiint_\mathcal{V} \frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau' && \text{$\because$ $\vec{r}'$ is constant wrt $\nabla$}\\
+			&= -\frac{1}{4\pi}\nabla\left(\nabla\cdot\left(\iiint_\mathcal{V}\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right)\right)\\
+			&+ \frac{1}{4\pi}\nabla\times\left(\nabla\times\left(\iiint_\mathcal{V}\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right)\right) && \text{Using \ref{enum:p2}}\\
+			&= -\frac{1}{4\pi}\nabla\left(\iiint_\mathcal{V}\vec{F}(\vec{r}')\cdot\nabla\left(\frac{1}{|\vec{r}-\vec{r}'|}\right)\,d\tau'\right)\\
+			&+ \frac{1}{4\pi}\nabla\times\left(\iiint_\mathcal{V}\vec{F}(\vec{r}')\times\nabla\left(\frac{1}{|\vec{r}-\vec{r}'|}\right)\,d\tau'\right) && \text{$\because$ product rules and \ref{enum:p4}}\\
+			&= \frac{1}{4\pi}\nabla\left(\iiint_\mathcal{V}\vec{F}(\vec{r}')\cdot\nabla'\left(\frac{1}{|\vec{r}-\vec{r}'|}\right)\,d\tau'\right)\\
+			&- \frac{1}{4\pi}\nabla\times\left(\iiint_\mathcal{V}\vec{F}(\vec{r}')\times\nabla'\left(\frac{1}{|\vec{r}-\vec{r}'|}\right)\,d\tau'\right) && \text{Using \ref{enum:p3}}
+		\end{align}
+		\begin{align}
+			&= \frac{1}{4\pi}\nabla\left(\iiint_\mathcal{V}\nabla'\cdot\left(\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\right)\,d\tau'\right)\\
+			&- \frac{1}{4\pi}\nabla\left(\iiint_\mathcal{V}\frac{\nabla'\cdot\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right)\\
+			&- \frac{1}{4\pi}\nabla\times\left(\iiint_\mathcal{V}\nabla\times\left(\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\right)\,d\tau'\right)\\
+			&+ \frac{1}{4\pi}\nabla\times\left(\iiint_\mathcal{V}\frac{\nabla\times\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right) && \text{$\because$ product rules of div and curl}\\
+			&= \frac{1}{4\pi}\nabla\left(\cancelto{0}{\oiint_\mathcal{S}\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\cdot d\vec{S'}} \right)\\
+			&- \frac{1}{4\pi}\nabla\left(\iiint_\mathcal{V}\frac{\nabla'\cdot\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right)\\
+			&+ \frac{1}{4\pi}\nabla\times\left(\cancelto{0}{\oiint_\mathcal{S}\left(\frac{\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\right)\times d\vec{S'}}\right)\\
+			&+ \frac{1}{4\pi}\nabla\times\left(\iiint_\mathcal{V}\frac{\nabla\times\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right) && \text{Using Div theorem and \ref{q:7}\ref{p:7b}}
+		\end{align}
+		\begin{align}
+			&= - \frac{1}{4\pi}\nabla\left(\iiint_\mathcal{V}\frac{\nabla'\cdot\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right) + \frac{1}{4\pi}\nabla\times\left(\iiint_\mathcal{V}\frac{\nabla\times\vec{F}(\vec{r}')}{|\vec{r}-\vec{r}'|}\,d\tau'\right)\hskip 0.15\textwidth\blacksquare
+		\end{align}
+	\end{solution}
+\end{parts}
+
+\question 
+\begin{parts}
+	\part Using the identity $\delta(ax)=\frac{\delta(x)}{|a|}$, $a\neq0$, prove that:
+	\begin{align*}
+		\delta(g(x)) = \sum_{m\text{ s.t }g(x_m)=0\text{, }g'(x_m)\neq0}\frac{\delta(x-x_m)}{|g'(x_m)|}
+	\end{align*}
+	\begin{solution}
+		Whenever we want to prove equality of two expressions involving delta functions, we need to prove them under the integral sign with an arbitrary test function
+		\begin{align}
+			&\int_{x=-\infty}^{\infty} f(x)\delta(g(x))\,dx\\
+			&= \sum_{m\text{ s.t }g(x_m)=0} \int_{x=x_m-\epsilon_0}^{x_m+\epsilon_0} f(x)\delta(g(x))\,dx\\
+			&= \sum_{m\text{ s.t }g(x_m)=0} \int_{\epsilon=-\epsilon_0}^{\epsilon_0} f(x_m+\epsilon)\delta(g(x_m)+\epsilon g'(x_m) + \bigo(\epsilon^2))\,d\epsilon && \text{Taylor Expansion}\\
+			&= \sum_{m\text{ s.t }g(x_m)=0} \int_{\epsilon=-\epsilon_0}^{\epsilon_0} f(x_m+\epsilon)\delta(\epsilon g'(x_m) + \bigo(\epsilon^2))\,d\epsilon && \text{$g(x_m)=0$}\\
+			&= \sum_{m\text{ s.t }g(x_m)=0\text{, }g'(x_m)\neq0} \int_{\epsilon=-\epsilon_0}^{\epsilon_0} f(x_m+\epsilon)\frac{\delta(\epsilon)}{|g'(x_m)|}\,d\epsilon && \text{Using given identity}\\
+			&= \sum_{m\text{ s.t }g(x_m)=0\text{, }g'(x_m)\neq0} \int_{x=x_m-\epsilon_0}^{x_m+\epsilon_0} f(x)\frac{\delta(x-x_m)}{|g'(x_m)|}\,dx\\
+			&= \int_{-\infty}^{\infty} f(x) \sum_{m\text{ s.t }g(x_m)=0\text{, }g'(x_m)\neq0} \frac{\delta(x-x_m)}{|g'(x_m)|}\,dx
+		\end{align}
+		Since this works for any arbitrary ordinary function $f(x)$, the expressions $\delta(g(x))$ and $\sum_{m\text{ s.t }g(x_m)=0\text{, }g'(x_m)\neq0} \frac{\delta(x-x_m)}{|g'(x_m)|}$ are equal
+	\end{solution}
+
+	\part Confirm that $I=\int_{x=0}^{\infty}\delta(\cos x)e^{-x}\,dx=\frac{1}{2\sinh(\frac{\pi}{2})}$
+
+	\begin{solution}
+		We need $x_m$ s.t. $\cos(x_m)=0$, $-\sin(x_m)\neq0$\\
+		Thus $x_m = (2n+1)\frac{\pi}{2}$, $n\in\mathbb{I}$\\
+		We have $|g'(x_m)|=1$ $\forall$ $n\in\mathbb{I}$\\
+		Thus,
+		\begin{align}
+			I = \int_{x=0}^{\infty}\delta(\cos x)e^{-x}\,dx &= \int_{x=0}^{\infty}\sum_{n\in\mathbb{N}} \delta\left(x-(2n+1)\frac{\pi}{2}\right)e^{-x}\,dx\\
+			&= \sum_{n\in\mathbb{N}} e^{-(2n+1)\frac{\pi}{2}}\\
+			&= e^{-\frac{\pi}{2}}\frac{1}{1-e^{-\pi}}\\
+			&= \frac{1}{e^{\frac{\pi}{2}}-e^{-\frac{\pi}{2}}}\\
+			&= \frac{1}{2\sinh(\frac{\pi}{2})}
+		\end{align}
+	\end{solution}
+
+	\part Show that,
+	\begin{equation*}
+		\lim_{m\rightarrow \infty}\frac{\text{sin mx}}{\pi x}
+	\end{equation*}
+	is a representation of $\delta(x)$ by showing that $\int_{-\infty}^{\infty} dx f(x) D(x)=f(0)$
+	\begin{solution}
+		\begin{align}
+			\int_{\mathbb{R}} f(x)D(x)\,dx &= \int_{x=-\infty}^{\infty} f(x)\lim_{m\to\infty}\frac{\sin(mx)}{\pi x}\,dx\\
+			&= \int_{y=-\infty}^{\infty} \lim_{m\to\infty} f
+			\left(\frac{y}{m}\right) \frac{\sin y}{\pi y}\,dy\\
+			&= \int_{y=-\infty}^{\infty} f(0) \frac{\sin y}{\pi y}\,dy\\
+			&= \frac{f(0)}{\pi} \int_{y=-\infty}^{\infty} \frac{\sin y}{y}\,dy\\
+			&= f(0)
+		\end{align}
+		Hence $D(x)$ is equivalent to $\delta(x)$
+	\end{solution}
+\end{parts}
+
+\question Show that D($\vec{r}$,$\epsilon$) demonstrates the peak-character \& goes to $\delta^{3}(\vec{r})$ as $\epsilon \to 0$ $$D(\vec{r},\epsilon)=-\frac{1}{4\pi}\nabla^2\frac{1}{\sqrt{r^2+\epsilon^2}}$$ \\
+Hint:
+\begin{enumerate}[label=(\roman*)]
+	\item Show that $D(\vec{r},\epsilon)=\frac{3\epsilon^2}{4\pi (({r^2+\epsilon^2})^{5/2})}$
+	\item Check that $D(0,\epsilon)\rightarrow \infty$ as $\epsilon \rightarrow 0$
+	\item Check that $D(\vec{r},\epsilon)\rightarrow 0$ as $\epsilon \rightarrow 0$, for all r $\neq$ 0
+	\item Check that the integral of $D(\vec{r},\epsilon)$ over all the space is 1
+\end{enumerate}
+\begin{solution}
+	First, we will evaluate $D(r,\epsilon)$ in terms of r and $\epsilon$
+	\begin{align}
+		D(r,\epsilon)&=-\frac{1}{4\pi}\nabla^2\frac{1}{\sqrt{r^2+\epsilon^2}}
+	\\
+		\implies\ D(r,\epsilon)&=-\frac{1}{4\pi}\nabla\cdot\nabla\left(\frac{1}{\sqrt{r^2+\epsilon^2}}\right)
+	\\
+		\implies\ D(r,\epsilon)&=\frac{1}{4\pi}\nabla\cdot\frac{r\,\hat{r}}{(r^2+\epsilon^2)^{\frac{3}{2}}}
+	\\
+		\implies\ D(r,\epsilon)&=\frac{1}{4\pi r^2}\frac{d}{dr}\left(\frac{r^3}{(r^2+\epsilon^2)^{\frac{3}{2}}}\right)
+	\\
+		\implies\ D(r,\epsilon)&=\frac{3\epsilon^2}{4\pi(r^2+\epsilon^2)^{\frac{5}{2}}}
+	\end{align}
+	Now, we need to show that as $\epsilon\to0$ , $D(r,\epsilon)$ behaves like $\delta^3(r)$. For an ordinary function $f(\vec{r})$
+	\begin{align}
+		lim_{\epsilon \to 0} \iiint_{\text{all space}}f(\vec{r})D(r,\epsilon)d\tau'
+	\end{align}
+	\begin{align}
+		&=\lim_{\epsilon \to 0} \iiint_{\text{all space}}\frac{3\epsilon^2f(\vec{r})}{4\pi(r^2+\epsilon^2)^{\frac{5}{2}}}d\tau'
+	\\
+		&=\lim_{\epsilon \to 0} \int_{\phi=0}^{2\pi}\int_{\theta=0}^{\pi}\int_{r=0}^{\infty}\frac{3\epsilon^2f(\vec{r})}{4\pi(r^2+\epsilon^2)^{\frac{5}{2}}} \cdot r^2 \,dr \sin\theta\,d\theta \,d\phi
+	\\
+		&=\lim_{\epsilon \to 0} \int_{r=0}^{\infty}\frac{3\epsilon^2r^2f(\vec{r})}{(r^2+\epsilon^2)^{\frac{5}{2}}} dr
+	\\
+		&=\lim_{\epsilon \to 0} \left.\left(f(\vec{r})\cdot \int\frac{3\epsilon^2r^2}{(r^2+\epsilon^2)^{\frac{5}{2}}} dr\right|_{r=0}^{\infty} -\int_{r=0}^{\infty} \left( \int\frac{3\epsilon^2r^2}{(r^2+\epsilon^2)^{\frac{5}{2}}}\right)\cdot f'(\vec{r}) \right)
+	\\
+		&=\lim_{\epsilon \to 0}\left(\left.\frac{f(\vec{r})r^3}{(r^2+\epsilon^2)^{\frac{3}{2}}}\right|r=_0^\infty\right) - \int_{r=0}^{\infty}\lim_{\epsilon \to 0}\left(\frac{f'(\vec{r})r^3}{(r^2+\epsilon^2)^{\frac{3}{2}}}\right)
+	\\
+		&= f(0) = \iiint_{\text{all space}}f(\vec{r})\delta^3(r)d\tau'
+	\end{align}
+	Hence $\lim_{\epsilon\to 0}D(\vec{r},\epsilon)$ is equivalent to $\delta^3(\vec{r})$
+\end{solution}
+
+\question  Evaluate the following integral $$\iiint_{\mathcal{V}}\vec{r}\cdot(\vec{d} - \vec{r})\delta^3 (\vec{e} - \vec{r}) \,d\tau$$ where $\vec{d} = (5, 5, 5)$, $\vec{e} = (15, 19, 17)$, and $\mathcal{V}$ is a sphere of radius 7 centered at $(10, 15, 19)$.
+\begin{solution}
+	First, we verify if the vector $\vec{e}\in V$. \\
+	$\vec{e}=(15,19,17)$ and centre of sphere is $\vec{r_1}=(10,15,19)$ \\
+	Since $\|\vec{e}-\vec{r_1}\|=\sqrt{45}<7$
+	$\implies \vec{e}\in \mathcal{V}$ \\
+	Using property,
+	\begin{align}
+		\iiint_\mathcal{V} f(r')\delta^3(r'-r_0)d\tau' &= f(r_0), && r_0\in \mathcal{V}
+\intertext{the required integral}
+		\iiint_\mathcal{V} r\cdot(d-r)\delta^3(e-r)d\tau' &=e\cdot(d-e)
+	\\
+		&=(15,19,17)\cdot(-10,-14,12)
+	\\
+		&=\boxed{-620}
+	\end{align}
+\end{solution}
+
+\question  Let $\vec{F}$ be a vector field whose divergence and curl are given as 
+\begin{align*}
+	\nabla\cdot\vec{F}= \delta(x)\delta(y) ~~~ \text{and} ~~~  \nabla \times \vec{F}=\vec{0}
+\end{align*}
+Using the Helmholtz theorem, determine $\vec{F}(x,y,z)$.
+
+\begin{solution}
+	We are given that $D(\vec{r'}) = \delta(x')\delta(y')$, $\vec{C}(\vec{r'})=\vec{0}$. Let us find $U(\vec{r})$ and $\vec{A}(\vec{r})$ of Helmholtz theorem
+	\begin{align}
+		\vec{A}(\vec{r}) &= \iiint \frac{\vec{C}(\vec{r'})}{|\vec{r}-\vec{r}'|}\,d\tau'= 0
+	\\
+		U(\vec{r}) &= \iiint \frac{D(\vec{r'})}{|\vec{r}-\vec{r}'|}\,d\tau'
+	\\
+		&= \int_{x'=-\infty}^{\infty}\int_{y'=-\infty}^{\infty}\int_{z'=-\infty}^{\infty} \frac{1}{\sqrt{(x-x')^2+(y-y')^2+(z-z')^2}}\,dz'\delta(y')\,dy'\delta(x')\,dx'
+	\\
+		&= \int_{z'=-\infty}^{\infty} \frac{1}{\sqrt{x^2+y^2+(z-z')^2}}\,dz'
+	\end{align}
+	Now, this integral is divergent. (You can guess so, since $\delta(x)\delta(y)$ represents the charge distribution of a charged wire along z axis, whose potential we know does indeed diverge when reference is taken as infinity). Thus we directly attempt to find $\vec{F}$ by calculating the grad of this potential.
+	\begin{align}
+		\implies \vec{F}(\vec{r}) &= -\nabla U
+	\\
+		&= -\int_{z'=-\infty}^{\infty} \nabla\frac{1}{\sqrt{x^2+y^2+(z-z')^2}}\,dz'
+	\\
+		&= \int_{z'=-\infty}^{\infty} \frac{x}{\sqrt{x^2+y^2+(z-z')^2}^3}\,dz'\,\ihat
+	\\
+		&+ \int_{z'=-\infty}^{\infty} \frac{y}{\sqrt{x^2+y^2+(z-z')^2}^3}\,dz'\,\jhat
+	\\
+		&+ \int_{z'=-\infty}^{\infty} \frac{z-z'}{\sqrt{x^2+y^2+(z-z')^2}^3}\,dz'\,\khat
+	\\
+		&= \left.\frac{x(z-z')}{(x^2+y^2)\sqrt{x^2+y^2+(z-z')^2}}\right|_{z'=-\infty}^{\infty}\,\ihat
+	\\
+		&+ \left.\frac{y(z-z')}{(x^2+y^2)\sqrt{x^2+y^2+(z-z')^2}}\right|_{z'=-\infty}^{\infty}\,\jhat
+	\\
+		&- \left.\frac{1}{\sqrt{x^2+y^2+(z-z')^2}}\right|_{z'=-\infty}^{\infty}\,\khat
+	\\
+		&= \frac{2x}{x^2+y^2}\,\ihat + \frac{2y}{x^2+y^2}\,\jhat
+	\end{align}
+\end{solution}
+
+\question A small ball with a positive charge $+q$ hangs by an insulating thread.Holding this ball vertical, a second ball having charge $+q$ is kept at a distance $a$ along the horizontal direction. There are an infinite number of points where a third ball with charge $+2q$ may be positioned so that the first ball continues to remain vertical when released. Find the equation of the curve describing these points.
+\begin{solution}
+	\begin{center}
+		\begin{tikzpicture}
+
+			\fill[pattern=north west lines] (-3,2.5) rectangle (3,2.8);
+			\draw (-3,2.5) -- (3,2.5);
+			\draw[thick] (0,2.5) -- (0, 0) node[anchor = north]{$+q$};
+			\node at (0,0)[circle,fill,inner sep=1.5pt]{};
+			\draw[dotted, thick, scale=1,domain=0:2.828,smooth,variable=\x] plot (\x,{((8*\x)^(2/3)-\x^2)^(0.5)});
+			\node at (0.5,1.507)[circle,fill,inner sep=1.5pt]{};
+			\node at (0.5,1.507)[anchor = south]{$+2q$};
+			\node at (0.5,1.507)[anchor = north west]{$(x, y)$};
+			\draw[dashed] (0,0) -- (-1,0) node[anchor = south]{$a$} -- (-2,0) node[anchor = north]{$+q$};
+			\node at (-2,0)[circle,fill,inner sep=1.5pt]{};
+		\end{tikzpicture}
+	\end{center}
+	We basically want to balance all the forces on the hanging $+q$. \\
+	Now,
+	\begin{align}
+		\vec{F}_{\text{thread}} &= f\,\hat{\jmath} \\
+		\vec{F}_{+q} = q\vec{E}_{+q} &= \frac{1}{4\pi\epsilon_0}\frac{q^2}{a^2}\,\hat{\imath} \\
+		\vec{F}_{+2q} = q\vec{E}_{+2q} &= -\frac{1}{4\pi\epsilon_0}\frac{2q^2x}{\sqrt{x^2+y^2}^3}\,\hat{\imath} -\frac{1}{4\pi\epsilon_0}\frac{2q^2y}{\sqrt{x^2+y^2}^3}\,\hat{\jmath}
+	\end{align}
+	Now we know that the thread can only apply a pulling force, so $f > 0$. So to balance the forces in the $y$ direction, $y > 0$. \\
+	Next we balance forces in the $x$ direction
+	\begin{align}
+		\frac{1}{4\pi\epsilon_0}\frac{q^2}{a^2} &= \frac{1}{4\pi\epsilon_0}\frac{2q^2x}{\sqrt{x^2+y^2}^3} \\
+		\implies {(x^2+y^2)}^3 &= (2a^2x)^2 \\
+		\implies y^2 &= (2a^2x)^{\frac{2}{3}}-x^2 \\
+		\implies y &= +\sqrt{(2a^2x)^{\frac{2}{3}}-x^2}
+	\end{align}
+\end{solution}
+
+\question  After an extremely precise measurement, it was revealed that the actual force between two point charges is given by
+\begin{align*}
+	\vec{F}=\frac{1}{4 \pi \epsilon_{0}} \frac{q_{1} q_{2}}{r^{2}}\left(1+\frac{r}{\lambda}\right) e^{-\frac{r} {\lambda}}\,\hat{r}
+\end{align*}
+Where $\lambda$ is a  constant with dimensions of length, such that $\lambda \gg 1$, hence the correction factor is negligible, but non zero
+\newline
+Does this electric field results from a scalar potential? Justify. 
+\newline 
+And if yes, find the potential due to a point charge $q$ placed at the origin using infinity as your reference.
+
+\begin{solution}
+	Yes. The field of a point charge at the origin is radial and symmetric, so $\nabla \times \vec{E}(\vec{r})=\vec{0}$ 
+	\begin{align}
+		U(\vec{r}) &=-\int_{r'=\infty}^{r} \vec{E}(\vec{r}') \cdot d\vec{l'}=-\frac{1}{4 \pi \epsilon_{0}} q \int_{r'=\infty}^{r} \frac{1}{r'^{2}}\left(1+\frac{r'}{\lambda}\right) e^{-\frac{r'} {\lambda}}\,dr'
+	\\
+		&=\frac{1}{4 \pi \epsilon_{0}} q \int_{r'=r}^{\infty} \frac{1}{r'^{2}}\left(1+\frac{r'}{\lambda}\right) e^{-\frac{r'}{\lambda}}\,dr'=\frac{q}{4 \pi \epsilon_{0}}\left(\int_{r'=r}^{\infty} \frac{1}{r'^{2}} e^{-\frac{r'} {\lambda}}\,dr'+\frac{1}{\lambda} \int_{r'=r}^{\infty} \frac{1}{r'} e^{-\frac{r'} {\lambda}}\,dr'\right)
+	\end{align}
+	Now $\int \frac{1}{r'^{2}} e^{-\frac{r'} {\lambda}}\,dr'=-\frac{e^{-\frac{r'}{\lambda}}}{r'}-\frac{1}{\lambda} \int \frac{e^{-\frac{r'}{\lambda}}}{r'}\,dr' \longleftarrow$ exactly right to kill the last term. Therefore
+	\begin{align}
+		V(\vec{r})=\frac{q}{4 \pi \epsilon_{0}}\left(-\left.\frac{e^{-\frac{r'} {\lambda}}}{r'}\right|_{r'=r} ^{\infty}\right)=\boxed{\frac{q}{4 \pi \epsilon_{0}} \frac{e^{-\frac{r} {\lambda}}}{r}}
+	\end{align}
+\end{solution}
+
+\question Which one of the following is possible expression for an electrostatic field? For the right expression, find a potential which determines this field with the origin as the reference.
+\begin{parts}
+	\part $\mbf{E} = A\big( x^2 yz\,\ihat + 2xz\,\jhat - 3yz\,\khat\big)$
+
+	\begin{solution}
+		We know that the curl of the electric field has to be $\mbf{0}$, so if the curl of this purported electric field is nonzero, then it cannot be the expression of an electrostatic field. 
+
+		In this case,
+		\begin{align}
+			\Curl \mbf{E} &= 
+				\begin{vmatrix}
+					\ihat & \jhat & \khat \\
+					\partial_x & \partial_y & \partial_z \\
+					x^2 yz & 2xz & -3yz
+				\end{vmatrix} \\
+			&= \big(-3z - 2x\big)\,\ihat + x^2 yz\,\jhat + \big( 2z - x^2 z\big)\,\khat \\
+			&\ne \mbf{0}
+		\end{align}
+		($\partial_x$ denotes the partial derivative w.r.t. $x$.)
+	\end{solution}
+
+	\part $\mbf{E} = A\big( \big[ 3xz^2 + y^2\big]\,\ihat + 2xy\,\jhat + 3x^2 z\,\khat\big)$
+
+	\begin{solution}
+		The curl of this $\mbf{E}$ is $\mbf{0}$ (verify), so therefore, this is a possible expression for an electrostatic field.
+
+		To find the potential $\Phi (x, y, z)$, we need to solve the system of three partial differential equations:
+
+		\begin{align}
+			\pd{\Phi}{x} &= 3xz^2 + y^2 \\[3pt]
+			\pd{\Phi}{y} &= 2xy \\[3pt]
+			\pd{\Phi}{z} &= 3x^2 z
+		\end{align}
+
+		Solving them, we get that
+		\begin{align}
+			\Phi &= \dfrac{3}{2}x^2 z^2 + xy^2 + g(y, z) \\
+			\Phi &= xy^2 + h(x, z) \\
+			\Phi &= \dfrac{3}{2}x^2z^2 + f(x, y) \\
+		\end{align}
+		where $f(x, y)$ is a function purely of $x$ and $y$, $g(y, z)$ is a function purely of $y$ and $z$, and $h(x, z)$ is a function purely of $x$ and $z$.
+
+		\medskip
+
+		Putting it all together, we get that
+		\begin{equation}
+			\Phi (x, y, z) = \dfrac{3}{2}x^2 z^2 + xy^2
+		\end{equation}
+
+	\end{solution}
+
+\end{parts}
+
+\question Find the electric field a distance $z$ above center of a square loop of side $l$ carrying uniform line charge density $\lambda$.
+
+\begin{solution}
+%insert diagram of the problem. The square loop will lie in the xy plane, with its center at the origin.
+
+	\begin{center}
+		\tdplotsetmaincoords{80}{45}
+		\begin{tikzpicture}[tdplot_main_coords]
+			\draw[thick,->] (0,0,0) -- (3,0,0) node[anchor=north east]{$x$};
+			\draw[thick,->] (0,0,0) -- (0,3,0) node[anchor=north west]{$y$};
+			\draw[thick,->] (0,0,0) -- (0,0,3) node[anchor=south]{$z$};
+
+			\draw (-1.5,-1.5,0) -- (-1.5,1.5,0) -- (1.5,1.5,0) -- (1.5,-1.5,0) -- (-1.5,-1.5,0);
+
+			\draw (0,-1.5,0) node[anchor=north east]{$l$};
+
+			\draw (0,0,2) node{\textbullet};
+
+			\draw (0,0,2) node[anchor=west]{$(0,0,z)$};
+
+		\end{tikzpicture}
+	\end{center}
+
+	By symmetry, we know that only the $z$ component of the electric field contributes to the total electric field.
+
+	Hence, to find the total electric field, we simply integrate over the $z$-component of the electric field due to one side of the square loop and then multiply by 4:
+	\begin{align}
+		E_z &= \dfrac{4}{4\pi\varepsilon_0} \int \dfrac{\md q \sin\T}{r^2} = \dfrac{4}{4\pi\varepsilon_0} \int \dfrac{z\,\md q}{r^3} \\[3pt]
+		E_z &=  \dfrac{1}{\pi\varepsilon_0} \int\limits_{-l/2}^{l/2} \dfrac{z\lambda\,\md y}{\left(\left(\frac{l}{2}\right)^2 + z^2 + y^2\right)^{3/2}} \\[3pt]
+		E_z &=  \dfrac{2z\lambda}{\pi\varepsilon_0} \int\limits_{0}^{l/2} \dfrac{\md y}{\left(\left(\frac{l}{2}\right)^2 + z^2 + y^2\right)^{3/2}}
+	\end{align}
+	Now, to solve the integral, we use the trig. substitution $y = a\tan\T$, where $a = \left(\dfrac{l}{2}\right)^2 + z^2$:
+	\begin{align}
+		E_z &=  \dfrac{2z\lambda}{\pi\varepsilon_0} \int_{y\,=\,0}^{y\,=\, l/2} \dfrac{a\sec^2\T\,\md \T}{a^3 \sec^3\T} \\[3pt]
+		E_z &=  \dfrac{2z\lambda}{\pi\varepsilon_0} \int_{y\,=\,0}^{y\,=\, l/2} \dfrac{\cos\T\,\md \T}{a^2} \\[3pt]
+		E_z &=  \dfrac{2z\lambda}{\pi\varepsilon_0}\cdot \dfrac{\sin\T}{a^2}\bigg|_{y\,=\,0}^{y\,=\, l/2} \\[3pt]
+		E_z &=  \dfrac{2z\lambda}{\pi\varepsilon_0}\cdot \dfrac{1}{\left(\frac{l}{2}\right)^2 + z^2}\cdot \dfrac{y}{\sqrt{y^2 + \frac{l^2}{4} + z^2}}\bigg|_{y\,=\,0}^{y\,=\, l/2} \\[3pt]
+		E_z &=  \dfrac{zl\lambda}{\pi\varepsilon_0\left(\frac{l^2}{4} + z^2\right)\sqrt{\frac{l^2}{2} + z^2}}
+	\end{align}
+
+	Therefore,
+	\begin{equation}
+		\vec{F} =  \dfrac{zl\lambda}{\pi\varepsilon_0\left(\frac{l^2}{4} + z^2\right)\sqrt{\frac{l^2}{2} + z^2}} \,\khat
+	\end{equation}
+
+\end{solution}
+
+\end{questions}
+\end{document}

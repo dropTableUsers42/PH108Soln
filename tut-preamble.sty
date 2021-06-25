@@ -1,0 +1,201 @@
+\ProvidesPackage{tut-preamble}
+%\usepackage{fancyhdr}
+
+\def\white{1}
+
+\usepackage{xpatch}
+\usepackage{float}
+
+\makeatletter
+\xpatchcmd{\questions}
+    {question@\arabic{question}}
+    {question@\arabic{section}@\arabic{question}}
+    {}{}
+\makeatother
+
+% \makeatletter
+% \xpatchcmd{\parts}
+%     {part@\arabic@\arabic{part}}
+%     {aapart@\arabic@\arabic{section}@\arabic{part}}
+%     {}{}
+% \makeatother
+
+\usepackage{hyperref}
+\usepackage[a4paper,left=0.6in,right=0.6in,top=1in,bottom=1in]{geometry}
+\usepackage{etoolbox}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{cleveref}
+
+\crefformat{question}{#2Q~#1#3}
+\crefformat{partno}{#2#1#3}
+
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{circuits.ee.IEC}
+\usetikzlibrary{patterns.meta}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{external}
+\usetikzlibrary{decorations.markings}
+\ifx\white\undefined
+    \tikzexternalize[prefix=tikz/]
+\else
+    \tikzexternalize[prefix=tikzwhite/]
+\fi
+\usepackage{tikz-3dplot}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\ifx\white\undefined
+    \pgfplotsset{
+        every axis legend/.append style={fill=black,draw=white}
+    }
+\else
+    \pgfplotsset{
+        every axis legend/.append style={fill=white,draw=black}
+    }
+\fi
+\usepackage{esint}
+\usepackage{physics}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{enumitem}
+\usepackage{empheq}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usetikzlibrary{decorations.pathmorphing}
+\tikzset{snake it/.style={decorate, decoration=snake}}
+
+\numberwithin{equation}{question}
+
+\ifx\white\undefined
+    \pagecolor{black}
+    \color{white}
+\fi
+
+\newlength\dlf  % Define a new measure, dlf
+\newcommand\alignedbox[2]{
+% Argument #1 = before & if there were no box (lhs)
+% Argument #2 = after & if there were no box (rhs)
+&  % Alignment sign of the line
+{
+\settowidth\dlf{$\displaystyle #1$}  
+    % The width of \dlf is the width of the lhs, with a displaystyle font
+\addtolength\dlf{\fboxsep+\fboxrule}  
+    % Add to it the distance to the box, and the width of the line of the box
+\hspace{-\dlf}  
+    % Move everything dlf units to the left, so that & #1 #2 is aligned under #1 & #2
+\boxed{#1 #2}
+    % Put a box around lhs and rhs
+}
+}
+
+\ifx\white\undefined
+    \def\rcurs{{\mbox{$\resizebox{.09in}{.08in}{\includegraphics[trim = 1em 0 14em 0,clip]{ScriptR}}$}}}
+    \def\brcurs{{\mbox{$\resizebox{.09in}{.08in}{\includegraphics[trim = 1em 0 14em 0,clip]{BoldR}}$}}}
+\else
+    \def\rcurs{{\mbox{$\resizebox{.09in}{.08in}{\includegraphics[trim = 1em 0 14em 0,clip]{ScriptRDark}}$}}}
+    \def\brcurs{{\mbox{$\resizebox{.09in}{.08in}{\includegraphics[trim = 1em 0 14em 0,clip]{BoldRDark}}$}}}
+\fi
+\def\hrcurs{{\mbox{$\hat \brcurs$}}}
+
+%\setcounter{secnumdepth}{0}
+\pagestyle{headandfoot}
+%\fancyhf{}
+\chead{\ifnum \thesection>0 Tutorial Sheet: \thesection \else Contents\fi}
+\rhead{Rwitaban Goswami}
+\cfoot{\thepage\ of \numpages}
+\firstpageheadrule
+\runningheadrule
+%\cfoot{Page \thepage}
+
+\renewcommand{\thequestion}{\thesection.\arabic{question}}
+\patchcmd{\questions}{10.}{\thequestion.}{}{}
+
+\usepackage{subfiles}
+
+
+\newcommand{\ihat}{\hat{\imath}}
+\newcommand{\jhat}{\hat{\jmath}}
+\newcommand{\khat}{\hat{k}}
+
+\newcommand\Set[2]{\{\,#1\mid#2\,\}}
+\newcommand\SET[2]{\Set{#1}{\text{#2}}}
+
+\newcommand{\bigo}{\mathcal{O}}
+
+\makeatletter
+\tikzoption{canvas is plane}[]{\@setOxy#1}
+\def\@setOxy O(#1,#2,#3)x(#4,#5,#6)y(#7,#8,#9)%
+  {\def\tikz@plane@origin{\pgfpointxyz{#1}{#2}{#3}}%
+   \def\tikz@plane@x{\pgfpointxyz{#4}{#5}{#6}}%
+   \def\tikz@plane@y{\pgfpointxyz{#7}{#8}{#9}}%
+   \tikz@canvas@is@plane
+  }
+\makeatother
+
+%——————————————————Defining the div and curl operators———————————————
+% \let\div\relax \DeclareMathOperator{\div}{div} %Reference: https://tex.stackexchange.com/a/67616/203821
+% \DeclareMathOperator{\curl}{curl}
+% \DeclareMathOperator{\grad}{grad}
+%————————————————————————————————————————————————————————————————————
+
+%————————————————Definitions for the \pd command—————————————————————
+
+%pd is short for ``partial derivative". The non-starred variant (which is meant to be used more often) takes two inputs: One for the function being differentiated, and the other is the variable we are differentiating with respect to.
+\makeatletter
+\newcommand{\pd}{\@ifstar{\@pdd}{\@pdn}}
+\newcommand{\@pdd}[1]{\dfrac{\partial}{\partial #1}}
+\newcommand{\@pdn}[2]{\dfrac{\partial #1}{\partial #2}}
+\makeatother
+%————————————————————————————————————————————————————————————————————
+
+%——————————————————Definitions for the \spd command——————————————————
+
+%spd is short for ``second partial derivative". The starred variant (which is meant to be used more often) takes two inputs: One for the function being differentiated, and the other is the variable we are differentiating with respect to.
+\makeatletter
+\newcommand{\spd}{\@ifstar{\@spdd}{\@spdn}}
+\newcommand{\@spdd}[1]{\dfrac{\partial^2}{\partial #1^2}}
+\newcommand{\@spdn}[2]{\dfrac{\partial^2 #1}{\partial #2^2}}
+\makeatother
+%————————————————————————————————————————————————————————————————————
+
+%————————Definitions of short commands to promote less typing————————
+\newcommand{\Div}{\nabla\cdot}
+\newcommand{\Curl}{\nabla\times}
+\newcommand{\Grad}{\nabla}
+
+\newcommand{\mbf}[1]{\mathbf{#1}} %Shorter variant to promote less typing
+\newcommand{\md}{\mathrm{d}}
+
+\newcommand{\T}{\theta}
+
+%We had to use textbf on \i and \j because those are text mode characters. They don't have math mode variants.
+%————————————————————————————————————————————————————————————————————
+
+\ifx\white\undefined
+    \def\rcurs{{\mbox{$\resizebox{.16in}{.08in}{\includegraphics{assets/ScriptRDark}}$}}}
+    \def\brcurs{{\mbox{$\resizebox{.16in}{.08in}{\includegraphics{assets/BoldRDark}}$}}}
+    \def\hrcurs{{\mbox{$\hat \brcurs$}}}
+\else
+    \def\rcurs{{\mbox{$\resizebox{.16in}{.08in}{\includegraphics{assets/ScriptR}}$}}}
+    \def\brcurs{{\mbox{$\resizebox{.16in}{.08in}{\includegraphics{assets/BoldR}}$}}}
+    \def\hrcurs{{\mbox{$\hat \brcurs$}}}
+\fi
+
+\newcommand\irregularcircle[2]{% radius, irregularity
+  \pgfextra {\pgfmathsetmacro\len{(#1)+rand*(#2)}}
+  +(0:\len pt)
+  \foreach \a in {10,20,...,350}{
+    \pgfextra {\pgfmathsetmacro\len{(#1)+rand*(#2)}}
+    -- +(\a:\len pt)
+  } -- cycle
+}
+
+\newcommand\Ground{%
+\mathbin{\text{\begin{tikzpicture}[circuit ee IEC,yscale=0.6,xscale=0.5]
+\draw (0,2ex) to (0,0) node[ground,rotate=-90,xshift=.65ex] {};
+\end{tikzpicture}}}%
+}

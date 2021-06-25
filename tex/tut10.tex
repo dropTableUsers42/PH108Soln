@@ -1,0 +1,378 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\begin{questions}
+
+\question A cylinder of radius $a$ and length $2L$ is placed with its axis along $\hat{z}$ and its center at the origin. It has an uniform frozen electric polarisation $\vec{P} = P_0\hat{z}$. It is set rotating with angular velocity $\omega$ about the direction of polarisation. Calculate the magnetic field $\vec{B}$ at a point on the $z$ axis.
+\begin{solution}
+	We know that the only charge present is the two discs of radius $a$ with surface (bound) charge density $\sigma=\pm P_0$ at $z=\pm L$
+
+	We need field at $\vec{r}=z\,\khat$.
+	
+	The surface current at cylindrical coordinates $\vec{r}'=(r',\phi,\pm L)$ is $\vec{K}=\sigma\vec{v}=\pm P_0 \omega r' \hat{\phi} = \pm P_0\omega r'(-\sin\phi\,\ihat + \cos\phi\,\jhat)$
+
+	Writing $\vec{r}'$ in cartesian basis, $\vec{r'}=r'\cos\phi\,\ihat+r'\sin\phi\,\jhat\pm L\,\khat$
+
+	Putting it all together,
+	\begin{align}
+		\vec{B}(\vec{r}) &= \frac{\mu_0}{4\pi}\iint \frac{\vec{K}\times\vec{\rcurs}}{|\vec{\rcurs}|^3}dS
+	\end{align}
+	\begin{gather}
+		= \frac{\mu_0P_0\omega}{4\pi} \int_{r'=0}^{a}\,dr'\left(\cancelto{0}{\int_{\phi=0}^{2\pi} \frac{r'^2(z-L)\cos\phi\,\ihat}{((z-L)^2+r'^2)^\frac{3}{2}}\,d\phi} + \cancelto{0}{\int_{\phi=0}^{2\pi}\frac{r'^2(z-L)\sin\phi\,\jhat}{((z-L)^2+r'^2)^\frac{3}{2}}\,d\phi}\right. \\
+		+ \left.\int_{\phi=0}^{2\pi}\frac{r'^3\khat}{((z-L)^2+r'^2)^\frac{3}{2}}\,d\phi\right)\\
+		- \frac{\mu_0P_0\omega}{4\pi} \int_{r'=0}^{a}\,dr'\left(\cancelto{0}{\int_{\phi=0}^{2\pi} \frac{r'^2(z+L)\cos\phi\,\ihat}{((z+L)^2+r'^2)^\frac{3}{2}}\,d\phi} + \cancelto{0}{\int_{\phi=0}^{2\pi}\frac{r'^2(z+L)\sin\phi\,\jhat}{((z+L)^2+r'^2)^\frac{3}{2}}\,d\phi}\right. \\
+		+ \left.\int_{\phi=0}^{2\pi}\frac{r'^3\khat}{((z+L)^2+r'^2)^\frac{3}{2}}\,d\phi\right)\\
+		= \frac{\mu_0P_0\omega}{2}\int_{r'=0}^{a} \frac{r'^3}{((z-L)^2+r'^2)^\frac{3}{2}} + \frac{r'^3}{((z+L)^2+r'^2)^\frac{3}{2}}\,dr'\,\khat\\
+		= \frac{\mu_0P_0\omega}{2}\left(\frac{2(z-L)^2+a^2}{\sqrt{(z-L)^2+a^2}}-2\sqrt{(z-L)^2}\right.\\
+		+ \left. \frac{2(z+L)^2+a^2}{\sqrt{(z+L)^2+a^2}}-2\sqrt{(z+L)^2} \right)\,\khat
+	\end{gather}
+\end{solution}
+
+\question A sphere of linear dielectric material has embedded in it a uniform free charge density $\rho$. Find the potential at the center of the sphere (relative to infinity), if its radius is $R$ and the dielectric constant is $\epsilon_r$.
+\begin{solution}
+	For $r<R$
+	$$\oint_S d\vec{s}\cdot\vec{D}=Q_{f_{enc}} \hspace{0.1in} \Rightarrow\vec{D}=\frac{1}{3}\rho\vec{r} \hspace{0.1in} \Rightarrow\vec{E}=\frac{\rho\vec{r}}{3\epsilon_{0}\epsilon_{r}}$$
+	For $r>R$
+	$$\oint_S d\vec{s}\cdot\vec{D}=Q_{f_{enc}} \hspace{0.1in} \Rightarrow\vec{D}=\frac{\rho R^3}{3r^2}\hat{r} \hspace{0.1in} \Rightarrow\vec{E}=\frac{\rho R^3}{3\epsilon_{0}r^2}\hat{r}$$
+	Then the potential is
+	$$V(0)=-\int_{\infty}^0d\vec{l}\cdot\vec{E}=\frac{\rho R^2}{3\epsilon_{0}}\left(1+\frac{1}{2\epsilon_r}\right) $$
+\end{solution}
+
+\question An uncharged conducting sphere of radius $a$ is coated with a thick insulating shell (dielectric constant $\epsilon_r$) out to radius $b$ . This object is now
+placed in an otherwise uniform electric field $E_0$. Find the electric field in the insulator.
+\begin{solution}
+	Let us assume the external field is along $z$, thus $\vec{E}=E_0\,\khat$
+
+	We again have the situation where we cannot use infinity as our potential reference. So we set the conductor surface as $V=0$, and keep in mind that every potential we specify is with respect to the conductor surface.
+
+	With that, we start out with the general solution to Laplace's equation in spherical coordinates, and apply boundary conditions
+	\begin{eqnarray}
+		V_\text{out}(r,\theta) =& \left(A^\text{out}_lr^l+\frac{B^\text{out}_l}{r^{l+1}}\right)P_l(\cos\theta) & r \geq b
+		\\
+		V_\text{in}(r,\theta) =& \left(A^\text{in}_lr^l+\frac{B^\text{in}_l}{r^{l+1}}\right)P_l(\cos\theta) & a \leq r \leq b
+	\end{eqnarray}
+	\begin{eqnarray}
+		V_\text{in}(b,\theta) =& V_\text{out}(b,\theta)
+		& \text{Continuity of V} \label{eq:ebc1}
+		\\
+		V_\text{in}(a,\theta) =& 0
+		& \text{Conductor} \label{eq:ebc2}
+		\\
+		\lim_{r\to\infty} V_\text{out}(r,\theta) =& -E_0r\cos\theta & \text{External field} \label{eq:ebc3}
+		\\
+		\left.\frac{\partial V_\text{out}(r,\theta)}{\partial r}\right|_{r=b} - \epsilon_r \left.\frac{\partial V_\text{in}(r,\theta)}{\partial r}\right|_{r=b} =& 0 & \text{Continuity of $\vec{D}$} \label{eq:ebc4}
+		\\
+		\oiint \frac{\partial V_\text{in}(r,\theta)}{\partial r} dS =& 0 & \text{Uncharged conductor} \label{eq:ebc5}
+	\end{eqnarray}
+
+	Applying \eqref{eq:ebc2}, \eqref{eq:ebc3}, \eqref{eq:ebc4} we get
+	\begin{gather}
+		A_l^\text{out} = 0\ \forall\ l\ \neq 1\\
+		A_1^\text{out} = -E_0\\
+		B_l^\text{in} = -A_l^\text{in}a^{2l+1}\ \forall\ l
+	\end{gather}
+
+	Thus we write the potentials as
+	\begin{align}
+		V_\text{out}(r,\theta) =& -E_0r\cos\theta + \frac{B^\text{out}_l}{r^{l+1}}P_l(\cos\theta)
+		\\
+		V_\text{in}(r,\theta) =& A^\text{in}_l\left(r^l-\frac{a^{2l+1}}{r^{l+1}}\right)P_l(\cos\theta)
+	\end{align}
+
+	Applying \eqref{eq:ebc1} and \eqref{eq:ebc4}
+	\begin{gather}
+		A_1^\text{in} = \frac{-3E_0}{2\left(1-\frac{a^3}{b^3}\right)+\epsilon_r\left(1+\frac{2a^3}{b^3}\right)}
+		\\
+		B_1^\text{out} = \frac{E_0(b^3+2a^3)(\epsilon_r-1)}{2\left(1-\frac{a^3}{b^3}\right)+\epsilon_r\left(1+\frac{2a^3}{b^3}\right)}
+		\\
+		A_l^\text{in} = 0 \ \forall\ l \neq 1
+		\\
+		B_l^\text{out} = 0 \ \forall\ l \neq 1
+	\end{gather}
+
+	Thus we can find potential in dielectric
+	\begin{gather}
+		V_\text{in}(r,\theta) = \frac{-3E_0}{2\left(1-\frac{a^3}{b^3}\right)+\epsilon_r\left(1+\frac{2a^3}{b^3}\right)}\left(r-\frac{a^3}{r^2}\right)\cos\theta
+	\end{gather}
+
+	And thus the electric field
+	\begin{gather}
+		\vec{E}_\text{in} = -\nabla V_\text{in} = \frac{3}{2\left(1-\frac{a^3}{b^3}\right)+\epsilon_r\left(1+\frac{2a^3}{b^3}\right)}\left(E_0\,\khat+\frac{2a^3\cos\theta}{r^3}\,\hat{r}+\frac{a^3\sin\theta}{r^3}\,\hat{\theta}\right)
+	\end{gather}
+
+	Thus we have the original external field (albeit scaled), along with a dipole field
+\end{solution}
+
+\question Two dielectrics having permittivity $\epsilon_1$ and $\epsilon_2$ have an interface which has no free charges. The electric field in medium 1 makes an angle $\theta_1$ with perpendicular of interface while, the field in medium 2 makes an angle $\theta_2$. Find the Relationship between two angles.
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (-2,0) -- (2,0) node[above]{$\epsilon_1$} node[below]{$\epsilon_2$};
+
+		\draw[dotted] (0,3) -- (0,-3);
+
+		\begin{scope}[very thick,decoration={
+			markings,
+			mark=at position 0.5 with {\arrow{Latex}},
+			}]
+			
+			\draw[postaction={decorate}] (3,3) -- node[above left]{$\vec{E}_1$} (0,0);
+			\draw[postaction={decorate}] (0,0) -- node[above left]{$\vec{E}_2$} ({-2*3*sqrt(2)/sqrt(13)},{-3*3*sqrt(2)/sqrt(13)});			
+		\end{scope}
+
+		\begin{scope}
+			\path[clip] (0,3) -- (0,0) -- (2,2) -- cycle;
+			
+			\draw (0,0) node[above=15pt, xshift=11pt]{$\theta_1$} circle (0.6);
+		\end{scope}
+		
+		\begin{scope}
+			\path[clip] (0,-3) -- (0,0) -- (-2,-3) -- cycle;
+			
+			\draw (0,0) node[below=20pt, xshift=-10pt]{$\theta_2$} circle (0.6);
+		\end{scope}
+	\end{tikzpicture}
+\end{center}
+
+\begin{solution}
+	We know that $\vec{E}$ is curl-less at the boundary, so component along the boundary is going to be continuous
+	\begin{align}
+		E_1\sin\theta_1 &= E_2\sin\theta_2
+	\end{align}
+	We also know that the component of $\vec{D}$ along the normal is going to be continuous, since no free charges exist at the interface
+	\begin{align}
+		\epsilon_1E_1\cos\theta_1 &= \epsilon_2E_2\cos\theta_2
+	\end{align}
+
+	Combining the two,
+	\begin{align}
+		\tan\theta_1 = \frac{\epsilon_1}{\epsilon_2}\tan\theta_2
+	\end{align}
+\end{solution}
+
+\question Consider an infinite cylindrical region with its axis along $\hat{z}$ and radius $R$. Consider another parallel cylinder running along $\hat{z}$ of radius $a$ with axis at $a$ distance $b$ from the larger cylinder. Assume that $b$ is small enough that the smaller cylinder is a `cavity' in the larger. Suppose that a magnetic field $\vec{B}(t) = B_0t\,\hat{z}$ exists everywhere inside the larger cylinder except for the cavity. Find the Electric field induced inside the cavity.
+
+\begin{solution}
+	Consider the scenario as a superposition of a cylindrical flux through the larger cylinder and a negative flux through the smaller one. On the edge of a circle with uniform changing magnetic field inside, symmetry argument along with the integral form of Ampere's law produces the vector form of electric field as 
+	$$\mathbf{E}=\frac{B_0}{2}\hat{z}\times\overline{r}$$
+	when origin is the centre of the circle. A straightforward vector addition for our scenario yields $$\mathbf{E}_{cav}=\frac{B_0}{2}\hat{z}\times \overline{b}$$
+\end{solution}
+
+\question A charge $Q$ is distributed uniformly on a non-conducting ring of radius $R$ and mass $M$. The ring is dropped from rest from a height $h$ and falls to the ground through a non-uniform magnetic field $\vec{B}(r)$. The plane of the ring remains horizontal during its fall.
+\begin{parts}
+	\part Explain qualitatively why the ring rotates as it falls.
+	\begin{solution}
+		As the ring falls, since $B_z$ is varying, the flux through the ring is changing. Hence a motional emf arises which makes the ring rotate in response (to produce an appropriate current)\\
+
+		We might be tempted to think that there is an induced electric field which produces this torque on the ring. This is true in the frame of the ring itself, but from the ground frame there is \textbf{no} electric field, induced or otherwise. Why? Remember that though the flux through the ring is changing, this is because the area itself is \textbf{moving}. But at no fixed point is the $\vec{B}$ field time varying. So there is no $\vec{E}$ field, and it is purely the $\vec{B}$ field exerting all forces.
+
+		(\textit{Technically} the rotating ring also produces time varying fields of its own, and hence will face some extra forces trying to impede it's rotation (analogous to self inductance). We will ignore that effect for this part, and assume that the time varying fields are negligible)
+	\end{solution}
+
+	\part Use Faraday's flux rule to show that the velocity of the center of mass of the ring when it hits the ground is
+	\begin{equation*}
+		v_\text{CM} = \sqrt{2gh-\frac{Q^2R^2}{4M}(B_z(0)-B_z(h))^2}
+	\end{equation*}
+
+	\begin{solution}
+
+		Applying Faraday's law, we know that the (motional) emf (clockwise from top) on the ring can be given by
+		\begin{gather}
+			\mathcal{E}(z) = -\frac{d\phi}{dt} = -\pi R^2 \frac{d B_z(z(t))}{dt} = -\pi R^2\frac{d B_z(z)}{dz} v(z)
+			\shortintertext{Where $B_z(z)$ is the $z$ component of magnetic field averaged over ring area when the ring has fallen to height $z$}
+			\intertext{But,}
+			\mathcal{E} = \oint \vec{f}\,\cdot d\vec{l} = \oint f_\phi dl = \frac{1}{\lambda R} \oint \tau_z\,dl
+			\intertext{Where $\vec{f}$ is the force per unit charge and $\vec{\tau}$ is the torque per unit length}
+			\implies MR^2\frac{d\omega_z(z(t))}{dt} = MR^2 v(z)\frac{d\omega_z(z)}{dz} = \text{Torque}_z(z) = \lambda R\mathcal{E}(z) = -\frac{QR^2v(z)}{2} \frac{d B_z(z)}{dz}
+			\\
+			\implies \int_{z=h}^{0} d\omega_z(z) = -\frac{Q}{2M}\int_{z=h}^{0} dB_z(z)
+			\\
+			\implies \omega_z(0) = \frac{Q}{2M}(B_z(h)-B_z(0))
+		\end{gather}
+
+		We also know that all the forces are due to $\vec{B}$ fields which do no work, so the energy must be conserved.
+
+		We know that the only dynamic fields are generated by the ring itself, and those dynamic fields are going to have azimuthal symmetry, as the ring rotation itself has azimuthal symmetry. Hence the fields themselves carry no momentum in the $xy$ plane. Thus the ring itself is not imparted any momentum in the $xy$ plane
+
+		We also know that the ring plane stays horizontal. Thus the ring is not imparted any angular momentum in the $xy$ plane.
+
+		Thus the energy from rotation must be drawn from the energy of translation in $z$ direction
+
+		Thus applying conservation of energy
+		\begin{align}
+			Mgh &= \frac{1}{2}Mv(0)^2 + \frac{1}{2}MR^2\omega_z(0)^2
+			\\
+			\implies v(0) &= \boxed{-\sqrt{2gh-\frac{Q^2R^2}{4M^2}(B_z(h)-B_z(0))^2}}
+		\end{align}
+
+		\textbf{Alternate Solution:}
+
+		Wait a minute! We have been saying that $\vec{B}$ exerts all forces, but how can $B_z$ apply any force in the vertical direction to slow the ring down? A closer inspection will reveal that it is $B_r$ that is capable of exerting force in both tangential (virtue of ring's downward motion) and upward (virtue of ring's tangential motion) directions.
+
+		But wait. We have no information of $B_r$, only about $B_z$. Ah! Here we need to recall the fact that $\nabla\cdot B=0$, so the inhomogenous nature of $B_z$ automatically fixes $B_r$ to preserve $\nabla\cdot B=0$
+
+		Can we get the same result with this analysis?
+
+		\begin{center}
+			\tdplotsetmaincoords{70}{90}
+			\begin{tikzpicture}[tdplot_main_coords]
+				\begin{scope}[canvas is xy plane at z=-3]
+					\draw (0,0) circle (3);
+				\end{scope}
+
+				\begin{scope}[canvas is xy plane at z=3]
+					\draw (0,0) circle (3);
+				\end{scope}
+
+				\begin{scope}[canvas is xy plane at z=0]
+					\draw[decoration={markings, mark=at position 0.125 with {\arrow{Latex[length=10pt]}}, mark=at position 0.625 with {\arrow{Latex[length=10pt]}}},
+					postaction={decorate}]
+					(0,0) circle (3);
+
+					\node at ({3*cos(45)},{-3*sin(45)})[above right]{$\mathcal{C}(z)$};
+				\end{scope}
+				\draw[thick,->] (0,0,-1) -- node[right] {$\omega(z)$} (0,0,1);
+				\draw[thick,->] (0,-3.3,-1) -- node[left]{$v(z)$} (0,-3.3,1);
+				\draw[decorate,decoration={brace,raise=5pt,amplitude=5pt,mirror}] (0,3,-3) -- node[right=12pt]{$z$} (0,3,0);
+
+				\draw (0,-3,-3) -- (0,-3,3);
+				\draw (0,3,-3) -- (0,3,3);
+			\end{tikzpicture}
+		\end{center}
+
+		We know that the velocity of each charge element is $\vec{v} = R\omega(z)\,\hat{\phi}+v(z)\,\khat$
+
+		Thus the magnetic force on each charge element is
+		\begin{align}
+			d\vec{F} &= dq \,\vec{v}\times\vec{B}
+			\\
+			&= \frac{Q}{2\pi R} (B_r\,\hat{r}+B_\phi\,\hat{\phi}+B_z\,\khat)\times(R\omega(z)\,\hat{\phi}+v(z)\,\khat)\,dl
+			\\
+			&=\frac{Q}{2\pi R}\left((R\omega(z)B_z-v(z)B_\phi)\,\hat{r}+v(z)B_r\,\hat{\phi}-R\omega(z)B_r\,\khat\right)\,dl
+		\end{align}
+		\begin{align}
+			MR^2\frac{d\omega(z(t))}{dt} &= \tau_z = R\oint_{\mathcal{C}(z)} d\vec{F}\cdot \hat{\phi}
+			\\
+			\implies MR\cancel{v(z)}\frac{d\omega(z)}{dz} &= \frac{Q}{2\pi R}\cancel{v(z)}\oint_{\mathcal{C}(z)} B_{r}\,dl\label{eq:omega}
+			\\
+			\implies \frac{2M\pi R^2}{Q}\int_{z'=h}^{z} d\omega(z') &= \int_{z'=h}^{z} \oint_{\mathcal{C}(z')} B_r(z')\,dl\,dz'\label{eq:final}
+		\end{align}
+		We can simplify the RHS. Let us imagine a cylinder with top surface $\mathcal{C}(h)$, and bottom surface $\mathcal{C}(z)$. We can calculate $\nabla\cdot \vec{B}$ over this volume
+
+		\begin{align}
+			\iiint \nabla\cdot \vec{B} &= 0
+			\\
+			\implies \oiint \vec{B}\cdot d\vec{S} &= 0
+		\end{align}
+		\begin{gather}
+			\implies \iint_{\mathcal{C}(h)} B_z(h)\,dS - \iint_{\mathcal{C}(z)} B_z(z)\,dS + \int_{z'=z}^{h}dz'\oint_{\mathcal{C}(z')} B_r(z')\,dl = 0
+			\\
+			\implies \int_{z'=h}^{z} \oint_{\mathcal{C}(z')} B_r(z')\,dl\,dz' = \pi R^2\left(\overline{B_z(h)}-\overline{B_z(z)}\right)
+		\end{gather}
+		Where $\overline{B_z(h)}$ and $\overline{B_z(z)}$ are the averaged versions of $B_z(h)$ and $B_z(z)$ over the corresponding ring areas
+
+		Putting this back into \eqref{eq:final}
+
+		\begin{align}
+			\frac{2M\pi R^2}{Q}\omega(z) &= \pi R^2\left(\overline{B_z(h)}-\overline{B_z(z)}\right)
+			\\
+			\implies \omega(z) &= \frac{Q}{2M}\left(\overline{B_z(h)}-\overline{B_z(z)}\right)
+		\end{align}
+
+		Now to find $v(z)$, we apply Newton's Second Law in the $z$ direction
+		\begin{align}
+			Ma = Mv(z)\frac{dv(z)}{dz} &= -Mg + \oint_{\mathcal{C}(z)}d\vec{F}\cdot \khat
+			\\
+			\implies M\int_{z'=h}^{z} v(z')\,dv(z) &= Mg\int_{z'=z}^{h} dz' - \frac{Q}{2\pi}\int_{z'=h}^{z}\omega(z')\oint_{\mathcal{C}(z')}B_r(z')\,dl\,dz'
+			\intertext{We can subsitute $\oint_{\mathcal{C}(z')}B_r(z')\,dl$ from \eqref{eq:omega}}
+			\implies M\int_{z'=h}^{z} v(z')\,dv(z) &= Mg\int_{z'=z}^{h} dz' - MR^2\int_{z'=h}^{z}\omega(z')\frac{d\omega(z')}{dz'}\,dz'
+			\\
+			\implies \frac{v(z)^2}{2} &= g(h-z) - R^2\frac{\omega(z)^2}{2}
+			\\
+			\implies v(z) &= \sqrt{2g(h-z)-\frac{Q^2R^2}{4M^2}\left(\overline{B_z(h)}-\overline{B_z(z)}\right)^2}
+		\end{align}
+
+		This gives us right what we had before! Thus we can conclusively say that it is only $B_r$ that is exerting all forces, and it takes translational energy from the ring and pumps it in the form of rotational energy, doing no net work in the process
+	\end{solution}
+\end{parts}
+
+\question Two circular loops of wire share the same axis but are displaced vertically by a distance $z$. The wire of radius $a$ is considerably smaller than the wire of radius $b$.
+\begin{center}
+
+	\tdplotsetmaincoords{70}{90}
+	\begin{tikzpicture}[tdplot_main_coords]
+		\begin{scope}[canvas is xy plane at z=0]
+			\draw (0,0) circle (3);
+
+			\draw[decorate,decoration={brace,amplitude=5pt,raise=5pt}] (0,0) -- node[above=10pt]{$b$} (0,3);
+		\end{scope}
+
+		\begin{scope}[canvas is xy plane at z=3]
+			\draw (0,0) circle (0.5);
+
+			\draw[decorate,decoration={brace,amplitude=5pt,raise=7pt}] (0,0) -- node[above=12pt]{$a$} (0,0.5);
+		\end{scope}
+
+		\draw[decorate,decoration={brace,amplitude=5pt,raise=5pt}] (0,0,0) -- node[left=12pt]{$z$} (0,0,3);
+	\end{tikzpicture}
+\end{center}
+
+\begin{parts}
+	\part The larger loop (of radius $b$) carries a current $I$. What is the magnetic flux through the smaller loop due to the larger? (Hint: The field of the large loop may be considered constant in the region of the smaller loop.)
+
+	\begin{solution}
+		The field on the axis of the larger loop is given by $\mu_0I\frac{b^2}{2(z^2+b^2)^\frac{3}{2}}$
+
+		Denoting the smaller loop as 1 and larger loop as 2, $\phi_{12}=\frac{\mu_0I\pi a^2b^2}{2(z^2+b^2)^\frac{3}{2}}$
+	\end{solution}
+
+	\part If the same current $I$ now flows in the smaller loop, then what is the magnetic flux through the larger loop? (Hint: The field of the smaller loop may be treated as a dipole.)
+
+	\begin{solution}
+		Taking the center of 1 as origin, and z axis from 1 to 2
+		\begin{align}
+			\vec{B}_1(r,\theta) &= \frac{\mu_0I\pi a^2}{4\pi}\left(\frac{2\cos\theta}{r^3}\,\hat{r}+\frac{\sin\theta}{r^3}\,\hat{\theta}\right)
+			\\
+			\implies \vec{B}_1(r,\theta)\cdot\khat &= \frac{\mu_0Ia^2}{4}\left(\frac{2\cos^2\theta}{r^3}-\frac{\sin^2\theta}{r^3}\right)
+			\\
+			\implies \phi_{21} &= 2\pi \int_{\rho=0}^{b}\vec{B}_1\left(\sqrt{\rho^2+z^2},\tan^{-1}\left(\frac{\rho}{z}\right)\right)\cdot\hat{k}\,\rho\,d\rho
+			\\
+			&= \frac{\mu_0I\pi a^2}{2}\int_{\rho=0}^{b}\left(\frac{2\frac{z^2}{(\rho^2+z^2)}-\frac{\rho^2}{\rho^2+z^2}}{(\rho^2+z^2)^\frac{3}{2}}\,\rho\,d\rho\right)
+			\\
+			&= \frac{\mu_0I\pi a^2}{2}\int_{u=z^2}^{z^2+b^2}\frac{3z^2-u}{u^\frac{5}{2}}\,du
+			\\
+			&= \frac{\mu_0I\pi a^2b^2}{2(z^2+b^2)^\frac{3}{2}}
+		\end{align}
+	\end{solution}
+
+	\part What is the mutual inductance of this system? Show that $M_{12}=M_{21}$
+	\begin{solution}
+		We can clearly see that $M_{12}=M_{21}=\frac{\phi_{12}}{I}=\frac{\phi_{21}}{I}=\frac{\mu_0\pi a^2b^2}{2(z^2+b^2)^\frac{3}{2}}$
+	\end{solution}
+\end{parts}
+
+\question A rectangular capacitor with side lengths $a$ and $b$ has separation $s$, with $s$ much smaller than $a$ and $b$. It is partially filled with a dielectric with
+dielectric constant $\kappa$. The overlap distance is $x$. The capacitor is isolated and has constant charge $Q$
+
+\begin{parts}
+	\part What is the energy stored in the system? (Treat the capacitor like two capacitors in parallel)
+	\begin{solution}
+		We know that the dielectric will raise the capacitance by $\kappa$. Hence we have 2 capacitors in parallel, with capacitance $\frac{\epsilon_0a(b-x)}{s}$ and $\frac{\kappa\epsilon_0ax}{s}$
+
+		$\implies C = \frac{\epsilon_0a}{s}\left(b+(\kappa-1)x\right)$
+
+		$\implies U = \frac{Q^2}{2C} = \frac{Q^2s}{2\epsilon_0a(b+(\kappa-1)x)}$
+	\end{solution}
+
+	\part What is the force on the dielectric? Does this force pull the dielectric into the capacitor or push it out?
+	\begin{solution}
+		$F=-\frac{dU}{dx}=\frac{Q^2s(\kappa-1)}{2\epsilon_0a(b+(\kappa-1)x)^2}$
+
+		This force is in direction of increasing $x$. That means the dielectric is pulled inwards
+	\end{solution}
+\end{parts}
+
+
+\end{questions}
+
+\end{document}

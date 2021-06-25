@@ -1,0 +1,393 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\begin{questions}
+
+\question A very long solenoid of $n$ turns per unit length carries a current which increases uniformly with time, $i = Kt$.
+
+\begin{parts}
+	\part Calculate the electric field and magnetic field inside the solenoid at time $t$ (neglect retardation).
+
+	\begin{solution}
+
+		Assume that the solenoid axis is along $\khat$
+
+		We already know that magnetic field inside solenoid due to solenoidal current is $\vec{B}=\mu_0ni\,\khat=\mu_0nKt\,\khat$
+
+		\begin{align}
+			\implies \vec{B}(\vec{r}) &=
+			\begin{cases}
+				\mu_0nKt\,\khat & r < R
+				\\
+				0 & r > R
+			\end{cases}
+		\end{align}
+
+		To calculate the magnetic field, consider the following amperian loop
+
+		\begin{center}
+			\tdplotsetmaincoords{70}{90}
+			\begin{tikzpicture}[tdplot_main_coords]
+				\begin{scope}[canvas is xy plane at z=-2]
+					\draw[dotted] (0,0) circle (2);
+				\end{scope}
+
+				\begin{scope}[canvas is xy plane at z=2]
+					\draw[dotted] (0,0) circle (2);
+				\end{scope}
+
+				\begin{scope}[canvas is xy plane at z=0]
+					\draw[dashed,decoration={markings, mark=at position 0.125 with {\arrow{Latex[length=10pt]}}, mark=at position 0.625 with {\arrow{Latex[length=10pt]}}},
+					postaction={decorate}]
+					(0,0) circle (2);
+				\end{scope}
+
+				\draw (0,2,-2) -- (0,2,2);
+				\draw (0,-2,-2) -- (0,-2,2);
+				
+				\draw[dotted] (0,2,2) -- (0,2,3);
+				\draw[dotted] (0,-2,2) -- (0,-2,3);
+				\draw[dotted] (0,2,-2) -- (0,2,-3);
+				\draw[dotted] (0,-2,-2) -- (0,-2,-3);
+
+				\draw[dashed] (0,0,-3) -- (0,0,3);
+
+				\begin{scope}[very thick,decoration={
+					markings,
+					mark=at position 0.5 with {\arrow{Latex}},
+					}]
+					
+					\draw[very thick] (0,0,0) -- ({1/sqrt(2)},{-1/sqrt(2)},0);
+					\draw[very thick] (0,0,0) -- node[above right]{$r$} ({1/sqrt(2)},{1/sqrt(2)},0);
+
+					\draw[very thick, postaction={decorate},canvas is xy plane at z=0] ({1/sqrt(2)},{-1/sqrt(2)}) arc (-45:45:1);
+
+					\draw[very thick,canvas is xy plane at z=0] ({0.5/sqrt(2)},{-0.5/sqrt(2)}) arc (-45:45:0.5);
+
+					\node at (0,0,0)[above right]{$\theta$};
+					
+				\end{scope}
+
+				\draw[dashed] (0,0,-3) -- (0,0,3);
+
+			\end{tikzpicture}
+		\end{center}
+
+		We know that $\vec{E}$ field will have azimuthal as well as $z$ translational symmetry
+
+		This rules out any $z$ component of $\vec{E}$ field. We can also rule out the radial component, since a non zero (and azimuthally symmetric) radial component will have non zero divergence which cannot be because $\rho=0$ everywhere
+
+		Thus only an azimuthally symmetric azimuthal component remains. Applying Ampere's law on the aforementioned loop
+
+		\begin{align}
+			\oint \vec{E}\cdot dl &= -\frac{d\phi}{dt} = -\mu_0nK\frac{r^2\theta}{2}
+			\\
+			\implies \vec{E} &= -\frac{\mu_0nKr}{2}\,\hat{\theta} & r < R
+		\end{align}
+	\end{solution}
+
+	\part Consider a cylinder of length $l$ and radius equal to that of the solenoid, and coaxial with the solenoid. Find the rate at which energy flows into the volume enclosed by this cylinder and show
+	that it is equal to $\frac{d(\frac{1}{2}lLi^2)}{dt}$, where $L$ is the self-inductance per unit length of the solenoid.
+
+	\begin{solution}
+		Let us find the rate of inflow of energy (mechanical and electromagnetic) at the surface of the cylinder. This will be given by the influx of Poynting vector just \textit{inside} the solenoid surface (just outside the surface $\vec{B}$ and thus the Poynting vector are both zero)
+
+		\begin{align}
+			\frac{dU_\mathcal{V}}{dt} &= -\oint_{\mathcal{S}} \vec{S} \cdot d\vec{S}
+			\\
+			&= -\frac{R}{\mu_0}\int_{z=0}^{l}\int_{\theta=0}^{2\pi} \vec{E}(R) \times\vec{B}(R) \cdot d\theta\,dz
+			\\
+			&= \mu_0n^2K^2\pi R^2lt
+		\end{align}
+
+		As we have said before, the Poynting vector just outside the surface is $0$. So this points to the fact that this energy is flowing from what is \textbf{at} the surface, into the volume. But what \textit{is} at the surface? The current!
+
+		What happens is that as the current increases, due to self inductance it faces some resistance to the increase of current. Thus extra energy has to be pumped in (by the battery or whatever) to keep the current increasing at the stated rate. 
+
+		This energy flows from the current into the fields (specifically, the magnetic field, as the electric field and thus its energy is static)
+
+		Therefore this is what the magnetic energy $\frac{1}{2}lLi^2$ is. Let us calculate that
+		
+		\begin{align}
+			L &= \mu_0 n^2\pi R^2\\
+			\implies \frac{1}{2}lLi^2 &= \frac{\mu_0 n^2\pi R^2 K^2t^2l}{2}\\
+			\implies \frac{d(\frac{1}{2}lLi^2)}{dt} &= \mu_0n^2K^2\pi R^2lt = \frac{dU_\mathcal{V}}{dt}
+		\end{align}
+	\end{solution}
+\end{parts}
+
+\question It has been proposed that a spacecraft may be propelled by harnessing the pressure of sunlight. Assume that a spacecraft is sufficiently away from earth and is under the sun's gravitational eld alone. A very large and fully reflecting sail is oriented at right angles to the sun's rays and attached to the craft. How large must the sail be so that the craft can start sailing away from the sun? The sun radiates $10^{26}$ W and has a mass of $10^{30}$ kg, the total mass of the spacecraft and sail is $1500$ kg.
+\begin{solution}
+	Let sail area be $A$, and it be a distance of $r$ from the sun
+
+	Thus the power hitting the sail is $P_\text{tot}\frac{A}{4\pi r^2}$
+	
+	Thus the force on the sail is $\frac{2P_\text{tot}A}{4\pi r^2c}$
+
+	Thus must be equal to the gravitational force
+
+	\begin{align}
+		\frac{P_\text{tot}A}{2\pi \cancel{r^2}c} &= \frac{GMm}{\cancel{r^2}}
+		\\
+		\implies A &= \frac{2\pi cGMm}{P_\text{tot}} \approx 1.9\times 10^6\ \text{m$^2$} 
+	\end{align}
+\end{solution}
+
+\question An infinite wire carries a current up the rotational symmetry axis of a toroidal solenoid with $N$ tightly wound turns and a circular cross section. The inner radius of the toroid is $a$ and the outer radius is $b$. Find the mutual inductance $M$ between the wire and the solenoid
+\begin{solution}
+	Let us calculate flux of field due to straight wire through a single loop, and multiply that by $N$ to get the total flux through the toroidal solenoid
+
+	Let the radius of revolution be $R_1=\frac{b+a}{2}$ and the radius of single loop be $R_2=\frac{b-a}{2}$
+
+	\begin{gather}
+		\phi = N\int_\text{loop}\frac{\mu_0I}{2\pi r}\,dA
+		\\
+		= \frac{\mu_0NI}{2\pi}\int_{x=a}^{b}\int^{\sqrt{R_2^2-(x-R_1)^2}}_{y=-\sqrt{R_2^2-(x-R_1)^2}} \frac{1}{x}\,dx\,dy
+		\\
+		= \frac{\mu_0NI}{\pi}\int_{x=a}^{b}\frac{\sqrt{R_2^2-(x-R_1)^2}}{x}\,dx
+		\\
+		= \frac{\mu_0NI}{\pi}\int_{x=a}^{b} \frac{\sqrt{(b-x)(x-a)}}{x}\,dx
+		\\
+		= \frac{\mu_0NI(\sqrt{b}-\sqrt{a})^2}{2}
+		\\
+		\implies M = \frac{\mu_0N(\sqrt{b}-\sqrt{a})^2}{2}
+	\end{gather}
+\end{solution}
+
+\question A rectangular coil has length $2L$ and width $2w$. The coil is in the $xz$ plane, centred at the origin and rotates about the $z$ axis with uniform angular velocity $\omega$. A uniform magnetic field of $B_0$ is applied in the $y$ direction. Determine the emf induced in the coil using motional EMF. Then check your answer using rate of change of flux in a coil
+
+\begin{solution}
+	When the coil is at an angle of $\phi$ with the $xz$ plane, the velocity of the vertical parts of the coil can be written as $\vec{v}=\pm w\omega\,\hat{\phi}=\omega(-y\,\ihat+x\,\jhat)$. The force per unit charge can be written as $\vec{f}=\vec{v}\times B_0\,\hat{j}=-\omega B_0 y\,\khat$
+
+	Similarly the force per unit charge on the horizontal parts are also $-\omega B_0 y\,\khat$, but they don't contribute to emf as $d\vec{l}$ is perpendicular to $\khat$
+
+	Putting $y=\omega\sin\phi$, the net emf is $4w\omega B_0L\sin\phi$
+
+	Let us find the negative rate of change of flux
+	\begin{gather}
+		-\frac{d\phi}{dt} = -B_0(2L)(2w)\frac{d\cos\phi}{dt} = 4w\omega B_0L\sin\phi
+	\end{gather}
+\end{solution}
+
+\question Write down the (real) electric and magnetic fields for a monochromatic plane wave of amplitude $E_0$
+and frequency $\omega$ and phase angle zero, that is travelling
+\begin{parts}
+	\part in the negative $x$ direction and polarized in
+	$z$ direction
+
+	\begin{solution}
+		\begin{gather}
+			\vec{k} = -\frac{\omega}{c}\,\ihat
+			\\
+			\vec{E} = E_0\cos(\vec{k}\cdot\vec{r}-\omega t)\,\khat
+			\\
+			= E_0\cos(\frac{\omega x}{c}+\omega t)\,\khat
+			\\
+			\vec{B} = \frac{\vec{k}}{\omega}\times\vec{E}
+			\\
+			= \frac{E_0}{c}\cos(\frac{\omega x}{c}+\omega t)\,\jhat
+		\end{gather}
+	\end{solution}
+
+	\part traveling in the direction from the origin to the point $(1,1,1)$ with polarization parallel
+	to the $xz$ plane.
+
+	\begin{solution}
+		\begin{gather}
+			\vec{k} = \frac{\omega}{c}\frac{\ihat+\jhat+\khat}{\sqrt{3}}
+			\intertext{The direction of polarization is perpendicular to both $\vec{k}$ and $\jhat$}
+			\vec{E} = \pm E_0\cos(\vec{k}\cdot \vec{r}-\omega t)\,\frac{\vec{k}\times\jhat}{|\vec{k}\times\jhat|}
+			\\
+			= \pm E_0\cos(\frac{\omega(x+y+z)}{c\sqrt{3}}-\omega t)\,\frac{\ihat-\khat}{\sqrt{2}}
+			\\
+			\vec{B} = \frac{\vec{k}}{\omega}\times\vec{E}
+			\\
+			= \pm\frac{E_0}{c}\cos(\frac{\omega(x+y+z)}{c\sqrt{3}}-\omega t)\,\frac{-\ihat+2\jhat-\khat}{\sqrt{6}}
+		\end{gather}
+	\end{solution}
+\end{parts}
+
+\question Consider a propagating wave in free space given by
+\begin{equation*}
+	\vec{E}=E_0\frac{\sin\theta}{r}\left(\cos(kr-\omega t)-\frac{\sin(kr-\omega t)}{kr}\right)\,\hat{\phi}
+\end{equation*}
+
+\begin{parts}
+	\part Calculate the magnetic field $\vec{B}$ and the Poynting vector $\vec{S}$ . You would need to use the expansions of $\nabla\times$ in spherical co-ordinates.
+
+	\begin{solution}
+		Since this is not a planar wave, we cannot apply $\vec{B}=\frac{\vec{k}}{\omega}\times\vec{E}$ here.
+
+		Let us apply the Maxwell's Equation $\nabla\times E=-\frac{\partial B}{\partial t}$
+
+		Writing the complex form of the field
+		\begin{gather}
+			\vec{E}=E_0\frac{\sin\theta}{r}e^{i(kr-\omega t)}\left(1+\frac{e^{i\frac{\pi}{2}}}{kr}\right)\,\hat{\phi}
+			\\
+			\nabla\times E = \frac{2E_0\cos\theta}{r^2}e^{i(kr-\omega t)}\left(1+\frac{e^i\frac{\pi}{2}}{kr}\right)\,\hat{r}
+			\\
+			- \frac{E_0\sin\theta}{r}e^{i(kr-\omega t+\frac{\pi}{2})}\left(k+\frac{e^{i\frac{\pi}{2}}}{r}-\frac{1}{kr^2}\right)\,\hat{\theta}
+			\\
+			\implies \vec{B} = -\int \nabla\times\vec{E}\,dt
+			\intertext{Ignoring the integration constant (as we are not interested in constant terms)}
+			\implies \vec{B} = \frac{2E_0\cos\theta}{\omega r^2}e^{i(kr-\omega t-\frac{\pi}{2})}\left(1+\frac{e^i\frac{\pi}{2}}{kr}\right)\,\hat{r}
+			\\
+			-\frac{E_0\sin\theta}{\omega r}e^{i(kr-\omega t)}\left(k+\frac{e^{i\frac{\pi}{2}}}{r}-\frac{1}{kr^2}\right)\,\hat{\theta}
+		\end{gather}
+
+		Interestingly, this field resembles the field of an oscillating \textit{magnetic} monopole. You can verify that the divergence of $\vec{B}$ has a delta term leftover, while the divergence of $\vec{E}$ is zero.
+
+		Before calculating the Poynting vector we must be careful to switch back to the real representation
+
+
+		\begin{gather}
+			\vec{S}=\frac{\vec{E}\times\vec{B}}{\mu_0}
+			\\
+			=\frac{E_0^2\sin^2\theta}{\mu_0\omega r^2}\left(k\cos^2(kr-\omega t)-\sin(2(kr-\omega t))\left(\frac{1}{r}-\frac{1}{2k^2r^3}\right)-\frac{\cos(2(kr-\omega t))}{kr^2}\right)\,\hat{r}
+			\\
+			+\frac{E_0\sin2\theta}{\mu_0\omega r^3}\left(\frac{\sin(2(kr-\omega t))}{2}\left(1-\frac{1}{k^2r^2}\right)+\frac{\cos(2(kr-\omega t))}{kr}\right)\,\hat{\theta}
+		\end{gather}
+		
+		Wow that's a mouthful! Fortunately on a time averaged scale most terms will cancel out
+	\end{solution}
+
+	\part What is the total average power radiated by the source?
+	\begin{solution}
+		We want the average power radiated, which is going to be the outflux of the time averaged Poynting vector. We know that $\langle\cos(u(t))\rangle=\langle\sin(u(t))\rangle=0$ and $\langle\cos^2(u(t))\rangle=\langle\sin^2(u(t))\rangle=\frac{1}{2}$
+
+		\begin{gather}
+			\implies \langle \vec{S} \rangle = \frac{E_0^2\sin^2\theta}{2\mu_0 cr^2}\,\hat{r}
+			\\
+			\implies \langle P \rangle = \oiint \langle \vec{S} \rangle\cdot d\vec{s} = \iint \frac{E_0^2\sin^2\theta}{2\mu_0c} \sin\theta\,d\theta\,d\phi
+			\\
+			=\frac{4\pi E_0^2}{3\mu_0c}
+		\end{gather}
+	\end{solution}
+\end{parts}
+
+\question A cylinder of radius $R$ and infinite length is made of permanently polarized dielectric. The polarization vector $\vec{P}$ is proportional to radial vector $\vec{r}$ everywhere, $\vec{P}=a\vec{r}$ where $a$ is positive constant. The cylinder rotates around its axis with an angular speed $\omega$. This is a non-relativistic problem.
+
+\begin{parts}
+	\part Calculate electric field $\vec{E}$ at a radius $r$ both inside and outside the cylinder.
+	\begin{solution}
+		We know that there is a volume charge $-\nabla\cdot\vec{P}=-2a$ inside cylinder and a surface charge $\vec{P}\cdot\hat{n}=aR$ on the cylinder
+
+		We can use a gaussian cylindrical surface to compute $\vec{E}$. Since the net charge is $0$, the field outside is naturally zero
+		\begin{align}
+			\implies \vec{E} &= 
+			\begin{cases}
+				-\frac{ar}{\epsilon_0}\,\hat{r} & r < R
+				\\
+				0 & r > R
+			\end{cases}
+		\end{align}
+	\end{solution}
+
+	\part Calculate magnetic field $\vec{B}$ at a radius $r$ both inside and outside the cylinder.
+	\begin{solution}
+		There is a volume current inside $\vec{J}=\rho\vec{v}=-2a\omega r\hat{\phi}$. There is also a surface current of $\vec{K}=\sigma\vec{v}=a\omega R^2\,\hat{\phi}$
+
+		Since there are no currents outside, the $\vec{B}$ field outside must be 0. To find the $\vec{B}$ field inside, we can use a rectangular amperian, whose one arm is at a radius of $r$ inside the cylinder, and the other is outside
+
+		\begin{align}
+			\oint \vec{B}\cdot d\vec{l} &= \mu_0 I_\text{enc} = \mu_0\left(\iint\vec{J}\cdot d\vec{S}+\int\vec{K}\cdot\hat{n}dl\right)
+			\\
+			\implies \vec{B} &=
+			\begin{cases}
+				\mu_0a\omega r^2 & r < R
+				\\
+				0 & r > R
+			\end{cases}
+		\end{align}
+	\end{solution}
+
+	\part What is the total electromagnetic energy stored per unit length of the cylinder before it started
+	spinning and while it is spinning? Where did the extra energy come from?
+	\begin{solution}
+		The energy before spinning is impossible to find. Since there is a frozen polarization (hence non linear dielectric) involved, the work done into making this arrangement depends on the history of the dielectric. However we could technically say that the pure electromagnetic energy is the work done in assembling the bound charges (disregarding the work done against the atomic springs). That way the energy per unit length before spinning is
+		\begin{gather}
+			U_E = \int_{\phi=0}^{2\pi} \int_{r=0}^{R} \frac{\epsilon_0\vec{E}\cdot\vec{E}}{2}\,r\,dr\,d\phi = \frac{\pi R^4a^2}{4\epsilon_0}
+		\end{gather}
+
+		After the spinning is set up, the additional energy per unit length is
+		\begin{gather}
+			U_M = \int_{\phi=0}^{2\pi}\int_{r=0}^{R} \frac{\vec{B}\cdot\vec{B}}{2\mu_0} r\,dr\,d\phi = \frac{\pi\mu_0a^2\omega^2R^6}{6}
+		\end{gather}
+
+		When we start to spin the cylinder, it faces some impedance to the rotational acceleration. This is due to self inductance. Thus extra energy has to be pumped (by whatever agent is making the cylinder rotate) into the cylinder to keep it rotating and get it to the required angular speed. This energy makes its way into the magnetic field
+	\end{solution}
+\end{parts}
+
+\question Suppose,
+\begin{align}
+	\vec{E}(\vec{r},t) = \frac{-1}{4\pi\epsilon_0}\frac{q}{r^2}\Theta(vt-r)\,\hat{r} && \vec{B}(\vec{r}) = 0
+\end{align}
+\begin{parts}
+	\part Show that they satisfy Maxwell's equations
+	\begin{solution}
+		$\nabla\cdot\vec{B}$
+
+		$\nabla\times\vec{E}=-\frac{\partial \vec{B}}{\partial t}=0$ both are easily seen to be satisfied
+
+		\begin{gather}
+			\nabla\cdot\vec{E} = -\frac{q}{4\pi\epsilon_0}\frac{1}{r^2}\frac{\partial\, \Theta(vt-r)}{\partial r}-\frac{q}{4\pi\epsilon_0}\Theta(vt-r)\nabla\cdot\frac{\hat{r}}{r^2}
+			\\
+			= \frac{q\,\delta(vt-r)}{4\pi\epsilon_0 r^2}-\frac{q}{\epsilon_0}\,\delta^3(\vec{r})
+			\\
+			\implies \rho = \frac{q\,\delta(vt-r)}{4\pi r^2}-q\,\delta^3(\vec{r})
+		\end{gather}
+
+		\begin{gather}
+			\nabla\times\vec{B} -\epsilon_0\mu_0\frac{\partial\vec{E}}{\partial t}= \frac{\mu_0 q}{4\pi r^2}\frac{\partial\,\Theta(vt-r)}{\partial t}\,\hat{r}
+			\\
+			\implies \vec{J} = \frac{qv}{4\pi r^2} \delta(vt-r)\,\hat{r}
+		\end{gather}
+
+		The final test for consistency, the continuity equation
+		\begin{gather}
+			-\nabla\cdot \vec{J} = -\frac{qv}{4\pi r^2}\frac{\partial\,\delta(vt-r)}{\partial r}-\frac{qv}{4\pi}\delta(vt-r)\nabla\cdot\frac{\hat{r}}{r^2}
+			\\
+			= \frac{qv}{4\pi r^2}\frac{\partial\,\delta(vt-r)}{\partial r}
+			\\
+			\frac{\partial \rho}{\partial t} =\frac{q}{4\pi r^2}\frac{\partial\,\delta(vt-r)}{\partial t} = -\frac{qv}{4\pi r^2}\frac{\partial\,\delta(vt-r)}{\partial r} = -\nabla\cdot\vec{J}
+		\end{gather}
+
+		Thus Maxwell's equations are consistently  satisfied.
+
+		Interestingly, the physical situation is a negative point charge sitting at the origin with a positively charged spherical shell expanding out with speed $v$
+
+		\begin{center}
+			\begin{tikzpicture}
+				
+				\node at (0,0){\textbullet};
+				\node at (0,0)[xshift=22pt, yshift=10pt]{$-q$};
+
+				\draw (0,0) circle (3);
+
+				\foreach \th in {1,...,8}
+				{
+					\draw[decoration={markings, mark=at position 0.5 with {\arrow{Latex[length=10pt]}}},
+					postaction={decorate}] ({3*cos(\th*360/8)},{3*sin(\th*360/8)}) -- (0,0);
+
+					\node at ({3.3*cos(\th*360/8)},{3.3*sin(\th*360/8)}){$+$};
+
+					\node at ({4.3*cos(\th*360/8+10)},{4.3*sin(\th*360/8+10)}){$v$};
+
+					\draw[decoration={markings, mark=at position 0.7 with {\arrow{Latex}}},
+					postaction={decorate}] ({3.5*cos(\th*360/8+10)},{3.5*sin(\th*360/8+10)}) -- +({0.6*cos(\th*360/8+10)},{0.6*sin(\th*360/8+10)});
+				}
+
+			\end{tikzpicture}
+		\end{center}
+	\end{solution}
+
+	\part Determine $\rho$ and $\vec{J}$
+	\begin{solution}
+		Solved in the above part
+	\end{solution}
+\end{parts}
+
+\end{questions}
+
+\end{document}

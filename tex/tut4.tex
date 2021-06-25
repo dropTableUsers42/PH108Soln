@@ -1,0 +1,165 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\begin{questions}
+
+\question Consider a conducting sphere $A$ which is initially uncharged. Another conducting sphere $B$ is given a charge $+Q$, brought into contact with $A$ and then moved far away. The charge on $B$ is then increased to its original value $+Q$ and again brought into contact with $A$. Show that if this process is repeated many times, the charge on $A$ will tend to the limit $\dfrac{Qq}{Q-q}$, where $q$ is the charge acquired by $A$ after its first contact with $B$.
+\begin{solution}
+	It is obvious that after each transfer of charge from $B$ to $A$, $A$ has $k$ fraction of total charge of $A$ and $B$ \\
+	Initially after one transfer $q_A = q = kQ$ \\
+	After another transfer $q_A = (k^2+k)Q$ \\
+	After $2$ transfers $q_A = (k^3 + k^2 + k)Q$ \\
+	So $q_A \to (\hdots + k^3 + k^2 + k)Q = \frac{Qk}{1-k} = \frac{Qq}{Q-q}$\hfill$\blacksquare$
+\end{solution}
+
+\question A hemisphere of radius $R$ has $z = 0$ as its equatorial plane and lies entirely in the region $z \geq 0$. The hemisphere has a uniform volume charge density $\rho$. Determine the field at the center of the hemisphere.
+\begin{solution}
+	We know that the field at $\vec{r}$ due to a $3$D charge distribution is given by
+	\begin{equation}
+		\vec{E}(r) = \frac{1}{4\pi\epsilon_0} \iiint_{\mathcal{V}} \frac{\rho(\vec{r'})}{|\vec{\rcurs}|^2}\,\hat{\rcurs} \,dV' = \frac{1}{4\pi\epsilon_0} \iiint_{\mathcal{V}} \frac{\rho(\vec{r'})}{|\vec{\rcurs}|^3}\,\vec{\rcurs} \,dV'
+	\end{equation}
+	We will use spherical coordinates for convenience \\
+	Here $\vec{r} = \vec{0}$ (origin), so $\vec{\rcurs} = -r'\,\hat{r} = -r'\left( \sin\theta\cos\phi\,\hat{\imath} + \sin\theta\sin\phi\,\hat{\jmath} + \cos\theta\,\hat{k} \right)$
+	\begin{align}
+		\implies \vec{E}(\vec{0}) = \frac{1}{4\pi\epsilon_0} \iiint_{\mathcal{V}} \frac{\rho(\vec{r'})}{|\vec{\rcurs}|^3}\,\vec{\rcurs} &= \frac{1}{4\pi\epsilon_0} \int^{\phi=2\pi}_{\phi=0}\int^{\theta=\frac{\pi}{2}}_{\theta=0}\int^{r'=R}_{r'=0} \frac{\rho}{{r'}^3} (-r'\,\hat{r}) \, {r'}^2\sin\theta\,dr\,d\theta\,d\phi\\
+		&= -\frac{\rho}{4\pi\epsilon_0} \cancelto{0}{\int^{\phi=2\pi}_{\phi=0}\int^{\theta=\frac{\pi}{2}}_{\theta=0}\int^{r'=R}_{r'=0} \sin^2\theta\cos\phi\,dr\,d\theta\,d\phi}\,\hat{\imath} \\
+		&- \frac{\rho}{4\pi\epsilon_0} \cancelto{0}{\int^{\phi=2\pi}_{\phi=0}\int^{\theta=\frac{\pi}{2}}_{\theta=0}\int^{r'=R}_{r'=0} \sin^2\theta\sin\phi\,dr\,d\theta\,d\phi}\,\hat{\jmath} \\ \\
+		&- \frac{\rho}{4\pi\epsilon_0} \int^{\phi=2\pi}_{\phi=0}\int^{\theta=\frac{\pi}{2}}_{\theta=0}\int^{r'=R}_{r'=0} \sin\theta\cos\theta\,dr\,d\theta\,d\phi\,\hat{k} \\
+		&= -\frac{\rho R}{4\epsilon_0} \,\hat{k}
+	\end{align}
+\end{solution}
+
+\question The potential takes the constant value $\phi_0$ on the closed surface $S$ which bounds a volume $V$. The total charge inside $V$ is $Q$. There is no charge anywhere else. Show that the electrostatic energy contained in the space outside of $S$ is $U_{E}(\text{out})=\frac{Q\phi_0}{2}$
+
+\begin{solution}
+	We know, for a volume charge density $\rho$, $U = \frac{1}{2}\iiint_{\mathcal{V}} \rho V\,d\tau$
+	\begin{align}
+		\rho &= \epsilon_0\nabla\cdot\vec{E} \\
+		\implies U &= \frac{\epsilon_0}{2} \iiint_{\mathcal{V}} (\nabla\cdot \vec{E})V\,d\tau
+	\end{align}
+	Use integration by parts to transfer the derivative from $\vec{E}$ to $V$
+	\begin{align}
+		\implies U &= \frac{\epsilon_0}{2} \left(-\iiint_{\mathcal{V}} \vec{E}\cdot(\nabla V)\,d\tau + \oiint_{\mathcal{S}} V\vec{E}\cdot d\vec{S}\right) \\
+		\implies U &= \frac{\epsilon_0}{2} \left(\iiint_{\mathcal{V}} \vec{E}\cdot\vec{E}\,d\tau + \oiint_{\mathcal{S}} V\vec{E}\cdot d\vec{S}\right) \\
+		\implies U &= U_E(\text{in}) + \frac{\epsilon_0}{2}\oiint_{\mathcal{S}} V\vec{E}\cdot d\vec{S} \\
+		U-U_E(\text{in}) = U_E(\text{out}) &= \frac{\epsilon_0}{2}\oiint_{\mathcal{S}} V\vec{E}\cdot d\vec{S} = \frac{\phi_0\epsilon_0}{2}\oiint_{\mathcal{S}} \vec{E}\cdot d\vec{S} \\
+		&= \frac{Q\phi_0}{2} \hskip0.55\textwidth\blacksquare
+	\end{align}
+	Notice that the last step is due to Gauss's law
+\end{solution}
+
+\question The inside of a grounded spherical metallic shell (inner radius $R_1$ and outer radius $R_2$) is filled with space charge of charge density $\rho(\vec{r}) = a+br$.
+\begin{parts}
+	\part Find the potential at the center.
+	\begin{solution}
+
+		\begin{center}
+			\begin{tikzpicture}
+				\draw[pattern={Lines[angle=-45,distance={5pt},
+				line width=1pt]}, pattern color=white,even odd rule] (0,0) circle (2) (0,0) circle (4);
+
+				\draw[thick,-{Latex[length=3mm]}] (0,0) -- (4,0) node [right]{$R_2$};
+				\draw[thick,-{Latex[length=3mm]}] (0,0) -- (0,2) node [below left]{$R_1$};
+
+				\draw[thick, dotted] (0,0) circle (1.5);
+				\node at ({-1.5/sqrt(2)},{1.5/sqrt(2)}) [below right]{$\rho(\vec{r})$};
+			\end{tikzpicture}
+		\end{center}
+
+		We know $\rho(\Vec{r})=a+br.$ \\
+		Hence, by symmetrical arguments, the potential and magnitude of electric field will be independent of $\theta$ and $\phi$ coordinates. \\
+		Additionally, the charge in the bulk of the conductor and outside the conductor is 0. So is the potential and the electric field.
+		Consider a Gaussian surface in the form of a sphere of radius r. Using Gauss Law,
+		\begin{align}
+			\notag\iiint_{\mathcal V}\rho(\Vec{r})d\tau &= \epsilon_0 \notag\oiint\Vec{E}(r)\cdot d\Vec{A}\\
+			\notag\implies \int_0^r 4\pi r^2(a+br)dr &= 4\pi\epsilon_0 r^2\Vec{E}(r) \\
+			\notag\implies \Vec{E}(r) &= \notag\frac{1}{\epsilon_0}\left(\frac{ar}{3}+\frac{br^2}{4}\right) \\
+			\intertext{Taking a line integral}
+			\notag\int_{\Vec{a}}^{\Vec{b}}\Vec{E}(r) &= V(\Vec{a})-V(\Vec{b}) \\
+			\notag\int_{r}^{R_1}\Vec{E}(r)dr &= V(r)-V(R_1) \\
+			\notag\implies \frac{1}{\epsilon_0}\int_{r}^{R_1}\frac{ar}{3}+\frac{br^2}{4}dr &= V(r)-V(R_1) \\
+			\implies V(r) &= \frac{1}{\epsilon_0}\left(\frac{a}{6}(R_1^2-r^2)+\frac{b}{12}(R_1^3-r^3)\right) \\
+			\implies V(0) &=\frac{1}{\epsilon_0}\left(\frac{aR_1^2}{6}+\frac{bR_1^3}{12}\right)
+		\end{align}
+	\end{solution}
+
+	\part Calculate the electrostatic energy of the system
+	\begin{solution}
+		\begin{align}
+			\intertext{Now to find energy}
+			\notag Energy &= \frac{1}{2}\iiint_{\mathcal V}\rho(\Vec{r})V(\Vec{r})d\tau \\
+			\notag&=\int_0^{R_1}\frac{(a+br)4\pi r^2}{\epsilon_0}\left(\frac{a}{6}(R_1^2-r^2)+\frac{b}{12}(R_1^3-r^3)\right)\\
+			\notag&=\frac{2\pi R_1^5}{\epsilon_0}\left(\frac{a^2}{45}+\frac{abR_1}{36}+\frac{b^2R_1^2}{112}\right)
+		\end{align}
+	\end{solution}
+
+	\part  Show that the system attains minimum energy configuration when $b=\frac{-14a}{9R_1}$
+	\begin{solution}
+		\begin{align}
+			\intertext{For minimum energy, we differentiate wrt b}
+			\notag \frac{\partial E}{\partial b} &= \frac{2\pi R_1^5}{\epsilon_0}\left(\frac{aR_1}{36}+\frac{bR_1^2}{56}\right) = 0 \\
+			\implies b &= \frac{-14a}{9R_1}
+		\end{align}
+	\end{solution}
+\end{parts}
+
+\question Show that the field is uniquely determined when the charge density $\rho$ is specified within a bounded region and either the potential $\phi$ or its normal derivative $\frac{\partial \phi}{\partial n}$ is specified on each boundary
+\begin{solution}
+	We let there be 2 solutions to the $\vec{E}$ field, $\vec{E_1}$ and $\vec{E_2}$, with potentials $V_1$ and $V_2$ such that $\vec{E_1}=-\nabla V_1$, $\vec{E_2}=-\nabla V_2$\\
+	Let $\vec{E_3}=\vec{E_2}-\vec{E_1}$, $V_3=V_2-V_1$
+	\begin{align}
+		\nabla\cdot(\vec{E_3}V_3) &= V_3\nabla\cdot\vec{E_3} + \vec{E_3}\cdot\nabla V_3\\
+		&= V_3 (\nabla\cdot\vec{E_2}-\nabla\cdot\vec{E_1}) - |\vec{E_3}|^2\\
+		&= \cancelto{0}{V_3 (\rho-\rho)} - |\vec{E_3}|^2\\
+		\implies \iiint \nabla\cdot(\vec{E_3}V_3)\,d\tau &= -\iiint |\vec{E_3}|^2\,d\tau\\
+		\implies \oiint_\text{boundary} V_3\vec{E_3}\cdot\hat{n}|dS| &= -\iiint |\vec{E_3}|^2\,d\tau
+	\end{align}
+	Now if $\phi$ is specified at boundary, then $V_3 = V_2-V_1 = \phi-\phi=0$ at boundary. If $\frac{\partial\phi}{\partial n}$ is specified at boundary, then $\vec{E_3}\cdot\hat{n} = \frac{\partial\phi}{\partial n}-\frac{\partial\phi}{\partial n}=0$. Either way $V_3\vec{E_3}\cdot\hat{n}=0$
+	\begin{align}
+		\implies \iiint |\vec{E_3}|^2\,d\tau &= 0\\
+		\implies \vec{E_3} &= 0\\
+		\implies \vec{E_1} &= \vec{E_2}
+	\end{align}
+
+	Hence no two distinct solutions can exist
+\end{solution}
+
+\question A ring of radius $R$ has a total charge $+Q$ uniformly distributed on it.
+\begin{parts}
+	\part Calculate the electric field and potential at the center of the ring.
+	\begin{solution}
+		Potential at centre = \[\frac{Q}{4\pi\epsilon_0R}\] \\
+		Field at centre = 0 
+	\end{solution}
+
+	\part  Calculate field at a height $z$ above the center. Compare this result with Coulomb's law in large $z$ limit.
+	\begin{solution}
+		At height z above centre, field is \[\frac{Qz\hat{z}}{4\pi\epsilon_0(R^2+z^2)^{\frac{3}{2}}}\] \\
+		As $z\to\infty, E\to\frac{Q\hat{z}}{4\pi\epsilon_0z^2}$ \\
+		which resembles the field from a point charge.
+	\end{solution}
+
+	\part Consider a charge $-Q$ constrained to slide along the axis of the ring. Show that the charge will execute simple harmonic motion for small displacements perpendicular to the plane of the ring. Calculate time period.
+	\begin{solution}
+		We know the equation for simple harmonic motion is \[m\frac{d^2x}{dt^2}=-kx\]
+		Hence,Force acting on the charged particle \[F= -Q\Vec{E}(z)\hat{z}=-\frac{Q^2z}{4\pi\epsilon_0(R^2+z^2)^{\frac{3}{2}}}\] \\
+		Thus, \[k=-F'(0)=\frac{Q^2}{4\pi\epsilon_0(R^2+z^2)^{\frac{3}{2}}}\]
+		Time period is \[2\pi\sqrt{\frac{k}{m}} = \frac{2\pi R}{Q}\sqrt{4\pi\epsilon_0Rm}\]
+	\end{solution}
+\end{parts}
+
+\question Assume that an electron is a small sphere of radius $R$ in which the charge $-|e|$ is distributed uniformly over its volume. Calculate the total energy of the system as a function of $R$. Now suppose you equate this energy to $m_0c^2$ where $m_0$ is the rest mass of the electron. What value of $R$ do you get? How does it compare with the size of a hydrogen atom?
+
+\begin{solution}
+	We can first calculate the energy of a spherical charge distribution with constant volume charge density.\\
+    This energy equals \[\frac{3q^2}{20\pi\epsilon_0R}\] where R is the radius of the distribution and q is total charge.\\
+    Equating this to $m_0c^2$, we get
+    \begin{align}
+        R &= \frac{3e^2}{20\pi\epsilon_0m_0c^2}\\
+        \implies R &\approx 10^{-7}m \approx 1000r_a
+    \end{align}
+	where $r_a$ is Bohr radius of Hydrogen atom
+\end{solution}
+
+\end{questions}
+\end{document}
